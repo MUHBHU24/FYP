@@ -6,6 +6,9 @@ A web application exploring the theme of lexical variation and its regional diff
 
 --- TODO LIST ---
 
+maybe allow users to add comments to surveys they partake in, and allow them to view other users comments on the same survey
+allow surveys to expire after a certain amount of time
+
 create conda env, install python, django, vite, etc
 create the project and configure 
 setup database
