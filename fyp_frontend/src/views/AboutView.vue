@@ -6,9 +6,10 @@
       </div>
     </div>
     <div class="row mt-5">
-      <div class="col-md-6">
+      <div class="col-md-6 mb-3">
         <div class="embed-responsive embed-responsive-16by9">
           <iframe
+            class="embed-responsive-item"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9581951.253777225!2d-15.00464572445363!3d54.10311305732506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x25a3b1142c791a9%3A0xc4f8a0433288257a!2sUnited%20Kingdom!5e0!3m2!1sen!2suk!4v1683158841160!5m2!1sen!2suk"
             width="600"
             height="450"
