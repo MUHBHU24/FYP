@@ -26,6 +26,9 @@ Django backend:
 -Set up the Django REST Framework for the API and create serializers for the models.
 -Create the views and URLs for the API endpoints.
 
+Models: basic user, researcher (admin), survey, question, answer, comments etc
+
+
 Vue.js frontend:
 -Set up Vue Router for navigation between pages.
 -Create components for the main page, survey creation, survey update, and survey display.
