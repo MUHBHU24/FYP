@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta # for JWT Authentication
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +29,34 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+# Application definition below
+
+# CORS settings for localhost:5174 (Vue frontend)
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5174",
+]
+
+# CSRF settings for localhost:5174 (Vue frontend)
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5174",
+]
+
+# REST API settings for JWT Authentication and Permissions 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication', # JWT Authentication for REST API
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated', # Only authenticated users can access REST API endpoints
+    ),
+}
+
+# JWT Authentication settings
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=28), # 28 days for access token to expire
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=28), # 28 days for refresh token to expire
+    'ROTATE_REFRESH_TOKENS': False,
+}
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,11 +65,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djangorestframework', # REST API
+    'djangoframework_simplejwt', # JWT Authentication
+    'corsheaders', # CORS
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware', # CORS middleware
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
