@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row mt-5">
       <div class="col-12 text-center">
-        <h1 class="display-4">About Vocabularious</h1>
+        <h1 class="display-4 text-secondary">About Vocabularious</h1>
       </div>
     </div>
     <div class="row mt-5">
@@ -19,24 +19,42 @@
         </div>
       </div>
       <div class="col-lg-6 col-12">
-        <p class="lead">
+        <h2 class="h4 text-primary fw-bold mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
+  <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z"/>
+  <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+</svg> Our Platform</h2>
+        <p class="text-muted">
           Vocabularious is a platform dedicated to the study of language and
           dialects. We provide a comprehensive resource for linguistic
           enthusiasts and researchers to explore and understand the complexities
           of language variation.
         </p>
-        <p>
+        <h2 class="h4 text-primary fw-bold mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
+  <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z"/>
+  <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+</svg> Our Mission</h2>
+        <p class="text-muted">
           Our mission is to foster a global community where people can share
           their knowledge, insights, and experiences about language and
           dialects. We aim to make the study of language more accessible and
-          engaging for everyone.
+          engaging for everyone. Join our community to partake in surveys, view
+          linguistic data on interactive maps, and learn more about the
+          fascinating world of language variation.
         </p>
-        <p>
-          Join our community to participate in surveys, view linguistic data on
-          interactive maps, and learn more about the fascinating world of
-          language variation.
+        <h2 class="h4 text-primary fw-bold mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
+  <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z"/>
+  <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+</svg> Google Maps Integration</h2>
+        <p class="text-muted">
+          The embedded Google Maps displayed on this page is interactive to help
+          you locate which city you're from. The dotted red outline represents
+          which regions are currently being studied on this website (the UK).
         </p>
-        <p>
+        <h2 class="h4 text-primary fw-bold mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-diamond" viewBox="0 0 16 16">
+  <path d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435zm1.4.7a.495.495 0 0 0-.7 0L1.134 7.65a.495.495 0 0 0 0 .7l6.516 6.516a.495.495 0 0 0 .7 0l6.516-6.516a.495.495 0 0 0 0-.7L8.35 1.134z"/>
+  <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+</svg> Disclaimer</h2>
+        <p class="text-muted">
           <small
             ><em
               >Please note: Vocabularious is solely focused on the theme of
@@ -46,7 +64,7 @@
         </p>
         <button
           type="button"
-          class="btn btn-info btn-sm mt-3 mb-3 text-white fw-bold fs-6 px-3 py-2 rounded-pill w-100"
+          class="btn btn-primary btn-sm mt-3 mb-3 text-white fw-bold fs-6 px-3 py-2 rounded-pill w-100"
           data-bs-toggle="modal"
           data-bs-target="#lexicalVariationModal"
         >
@@ -104,7 +122,7 @@
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-info text-white"
+              class="btn btn-danger text-white"
               data-bs-dismiss="modal"
               aria-label="Close"
             >
