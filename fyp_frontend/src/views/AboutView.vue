@@ -1,3 +1,9 @@
+<script>
+export default {
+  name: "AboutView",
+};
+</script>
+
 <template>
   <div class="container">
     <div class="row mt-5">
@@ -191,12 +197,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: "AboutView",
-};
-</script>
 
 <style scoped>
 .row > .col-md-6 {

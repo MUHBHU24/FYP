@@ -1,3 +1,20 @@
+<script>
+export default { 
+  data() {
+    return {
+      comments: [],
+    };
+  },
+  props: {
+    surveyId: Number,
+  },
+  async created() {
+    const response = await fetch(`/api/survey_comments/${this.surveyId}/`);
+    this.comments = await response.json();
+  },
+};
+</script> 
+
 <template>
     <div class="comments">
       <div v-for="comment in comments" :key="comment.created_at" class="comment">
@@ -9,24 +26,6 @@
     </div>
   </template>
   
-  <script>
-  export default { 
-    data() {
-      return {
-        comments: [],
-      };
-    },
-    props: {
-      surveyId: Number,
-    },
-    async created() {
-      const response = await fetch(`/api/survey_comments/${this.surveyId}/`);
-      this.comments = await response.json();
-    },
-  };
-  </script>
-  
   <style scoped>
   /* styling/bootstrap to do*/
   </style>
-  

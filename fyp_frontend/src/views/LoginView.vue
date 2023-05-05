@@ -1,3 +1,7 @@
+<script>
+
+</script>
+
 <template>
     <div class="container">
       <div class="row g-5">
