@@ -76,4 +76,4 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return self.comment_text
+        return f"{self.user.username}: {self.comment_text}"
