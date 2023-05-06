@@ -22,12 +22,9 @@ Project setup:
 
 Django backend:
 -Create a new Django app using python manage.py startapp appName.
--Define the models for the survey, questions, and answers.
+-Define the models for the survey, questions, and answers. Models: basic user, researcher (admin), survey, question, answer, comments etc
 -Set up the Django REST Framework for the API and create serializers for the models.
 -Create the views and URLs for the API endpoints.
-
-Models: basic user, researcher (admin), survey, question, answer, comments etc
-
 
 Vue.js frontend:
 -Set up Vue Router for navigation between pages.

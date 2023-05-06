@@ -11,7 +11,14 @@
         >
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="#">
-                    <h2 class="m-0 me-2" :style="{ color: 'white' }">
+                    <img
+                        src="../assets/fyp_logo.png"
+                        alt="logo"
+                        width="80"
+                        height="80"
+                        class="me-2"
+                    />
+                    <h2 class="m-0 me-2 fs-1" :style="{ color: 'white' }">
                         Vocabularious
                     </h2>
                 </a>
@@ -30,7 +37,7 @@
                     class="collapse navbar-collapse justify-content-center"
                     id="navbarNav"
                 >
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav fs-5">
                         <li class="nav-item">
                             <a class="nav-link custom-nav-link" href="#"
                                 ><svg
@@ -127,7 +134,7 @@
                         </li>
                     </ul>
                 </div>
-                <ul class="navbar-nav">
+                <ul class="navbar-nav fs-5">
                     <li class="nav-item">
                         <a class="nav-link custom-nav-link" href="#"
                             ><svg
