@@ -14,4 +14,6 @@ export default {
 };
 </script>
 
-<template></template>
+<template>
+	  <survey-comments :survey-id="surveyId"></survey-comments> <!-- change surveyId to use vue router, maybe this.$route.params.surveyId -->
+</template>
