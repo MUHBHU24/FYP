@@ -4,10 +4,6 @@ import { useToastStore } from "@/stores/toast";
 // Retrieve the toast store from Pinia
 const store = useToastStore();
 
-// Expose the store instance to the template
-return {
-    store,
-};
 </script>
 
 <template>
