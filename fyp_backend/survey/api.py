@@ -3,9 +3,9 @@ from .forms import registerForm
 from rest_framework.decorators import authentication_classes, permission_classes, api_view
 
 
+@api_view(['POST'])
 @authentication_classes([])
 @permission_classes([])
-@api_view(['POST'])
 def register(request) -> JsonResponse:
     data = request.data
     msg = "Success"
