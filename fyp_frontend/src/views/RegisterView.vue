@@ -1,4 +1,105 @@
-<script></script>
+<script>
+import axios from "axios";
+
+export default {
+    setup() {
+        const toastStore = useToastStore();
+
+        return {
+            toastStore,
+        };
+    },
+
+    data() {
+        return {
+            form: {
+                name: "",
+                city: "",
+                username: "",
+                password1: "",
+                password2: "",
+            },
+            entryErrors: [],
+        };
+    },
+
+    methods: {
+        submitForm() {
+            this.entryErrors = [];
+
+            if (this.form.name === "") {
+                this.errors.push("Name required!");
+            }
+
+            if (this.form.city === "") {
+                this.errors.push("City required!");
+            }
+
+            if (this.form.username === "") {
+                this.errors.push("Username required!");
+            }
+
+            if (this.form.password1 === "") {
+                this.errors.push("Password required!");
+            }
+
+            if (this.form.password2 === "") {
+                this.errors.push("Please confirm your password!");
+            }
+
+            if (this.form.password1 !== this.form.password2) {
+                this.errors.push("The passwords you entered must match!");
+            }
+
+            if (this.entryErrors.length === 0) {
+                axios
+                    .post("/api/register/", this.form)
+                    .then((response) => {
+                        if (response.data.msg === "Success") {
+                            this.toastStore.addToast({
+                                title: "Success!",
+                                message: "You have successfully registered!",
+                                variant: "success",
+                            });
+                            this.form.name = "";
+                            this.form.city = "";
+                            this.form.username = "";
+                            this.form.password1 = "";
+                            this.form.password2 = "";
+                        } else {
+                            this.toastStore.addToast({
+                                title: "Error!",
+                                message: "An error occurred while registering!",
+                                variant: "danger",
+                            });
+                        }
+                        // if (response.data.msg === "Success") {
+                        //     this.toastStore.showToast(
+                        //         7500,
+                        //         "You have successfully registered!",
+                        //         "bg-emerald-500"
+                        //     );
+                        // } else {
+                        //     this.toastStore.showToast(
+                        //         7500,
+                        //         "An error occurred while registering!",
+                        //         "bg-red-500"
+                        //     );
+                        // }
+                    }
+                    )
+                    .catch((error) => {
+                        this.toastStore.addToast({
+                            title: "Error!",
+                            message: "An error occurred while registering!",
+                            variant: "danger",
+                        });
+                    });
+            }
+        },
+    },
+};
+</script>
 
 <template>
     <div class="container">

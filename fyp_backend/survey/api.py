@@ -23,4 +23,4 @@ def register(request) -> JsonResponse:
     else:
         msg = "Error"
 
-    return JsonResponse({'status': msg})
+    return JsonResponse({'msg': msg})
