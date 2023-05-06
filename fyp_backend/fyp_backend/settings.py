@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 
 # Application definition below
 
+# Custom User model
+AUTH_USER_MODEL =  'survey.User' 
+
 # CORS settings for localhost:5174 (Vue frontend)
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5174",
@@ -68,6 +71,7 @@ INSTALLED_APPS = [
     'rest_framework', # REST API
     'rest_framework_simplejwt', # JWT Authentication
     'corsheaders', # CORS
+    'survey', # survey app
 ]
 
 MIDDLEWARE = [

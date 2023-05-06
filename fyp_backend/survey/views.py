@@ -25,9 +25,9 @@ def index(request):
 #     }
 #     return render(request, 'view_survey.html', context)
 
-@api_view(['GET'])
-def get_survey_comments(request, survey_id):
-    survey = Survey.objects.get(pk=survey_id)
-    comments = Comment.objects.filter(survey=survey).select_related('user').order_by('created_at')
-    serializer = CommentSerializer(comments, many=True)
-    return JsonResponse(serializer.data, safe=False)
+# @api_view(['GET'])
+# def get_survey_comments(request, survey_id):
+#     survey = Survey.objects.get(pk=survey_id)
+#     comments = Comment.objects.filter(survey=survey).select_related('user').order_by('created_at')
+#     serializer = CommentSerializer(comments, many=True)
+#     return JsonResponse(serializer.data, safe=False)
