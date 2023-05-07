@@ -1,4 +1,77 @@
-<script></script>
+<script>
+import axios from "axios";
+import { useAuthUserStore } from "../stores/AuthUser";
+
+export default {
+    setup() {
+        const AuthUserStore = useAuthUserStore();
+
+        return {
+            AuthUserStore,
+        };
+    },
+
+    data() {
+        return {
+            form: {
+                // Initialize the form object
+                username: "",
+                password: "",
+            },
+            // Initialize the entryErrors array for handling form validation errors
+            entryErrors: [],
+        };
+    },
+
+    methods: {
+        // Method to handle form submission
+        async loginForm() {
+            // Reset the entryErrors array
+            this.entryErrors = [];
+
+            // Validate form fields, adding error messages if necessary (in this case, if the fields are empty) and pushing them to the entryErrors array
+            if (this.form.username === "") {
+                this.entryErrors.push("Username required!");
+            }
+
+            if (this.form.password === "") {
+                this.entryErrors.push("Password required!");
+            }
+
+            // If there are no errors, send a POST request to the API to log the user in and create a token
+            if (this.entryErrors.length === 0) {
+                await axios
+                    .post("/api/login/", this.form)
+                    .then((response) => {
+                        // Handle successful login
+                        this.AuthUserStore.createToken(response.data);
+
+                        axios.defaults.headers.common["Authorization"] =
+                            "Bearer " + response.data.accessToken;
+                            console.log('Authorization header:', axios.defaults.headers.common['Authorization']);
+                    })
+                    .catch((error) => {
+                        // Log the error
+                        console.log("We have encountered a problem: ", error);
+                    });
+
+                await axios
+                    .get("/api/my_account/")
+                    .then((response) => {
+                        // Handle successful profile retrieval
+                        this.AuthUserStore.createAuthUser(response.data);
+                        // Redirect the user to their profile page
+                        this.$router.push("/profile");
+                    })
+                    .catch((error) => {
+                        // Log the error
+                        console.log("We have encountered a problem: ", error);
+                    });
+            }
+        },
+    },
+};
+</script>
 
 <template>
     <div class="container">
@@ -29,30 +102,37 @@
                     </p>
                 </div>
             </div>
-
             <div class="col-lg-6 main-right">
                 <div
                     class="p-4 bg-white border border-1 border-secondary rounded"
                 >
-                    <form>
+                    <form @submit.prevent="loginForm">
                         <div class="mb-3">
                             <label class="form-label">Username</label>
                             <input
                                 type="text"
                                 placeholder="Enter your username..."
                                 class="form-control"
+                                v-model="form.username"
                             />
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label">Password</label>
                             <input
                                 type="password"
                                 placeholder="Enter your password..."
                                 class="form-control"
+                                v-model="form.password"
                             />
                         </div>
-
+                        <!-- Display validation errors -->
+                        <div
+                            class="alert alert-danger border border-danger rounded-3 p-4"
+                            v-for="(err, index) in entryErrors"
+                            :key="index"
+                        >
+                            {{ err }}
+                        </div>
                         <div>
                             <button class="btn btn-primary">Log in</button>
                         </div>

@@ -91,7 +91,7 @@ export default {
                         }
                     })
                     .catch((error) => {
-                        console.log("We have encountered a problem", error); // Log the error
+                        console.log("We have encountered a problem: ", error); // Log the error
                     });
             }
         },

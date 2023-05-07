@@ -5,9 +5,9 @@ from django.contrib.auth.models import User, AbstractUser
 
 class User(AbstractUser): # Extends the default Django User model with additional fields and methods 
     city = models.CharField(max_length=60, blank=False, null=False)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     age = models.IntegerField(blank=True, null=True)
     bio = models.TextField(max_length=200, blank=True, null=True)
+    avatar = models.ImageField(upload_to='', blank=True, null=True)
 
     def __str__(self) -> str:
         return self.username
@@ -18,9 +18,9 @@ class User(AbstractUser): # Extends the default Django User model with additiona
             'first_name': self.first_name,
             'username': self.username,
             'city': self.city,
-            'avatar': self.avatar.url if self.avatar else None, # Return the URL of the avatar if it exists, otherwise return None        
             'age': self.age,
             'bio': self.bio,
+            'avatar': self.avatar.url if self.avatar else None, # Return the URL of the avatar if it exists, otherwise return None   
         }
     
     def to_dict_simple(self) -> dict:
