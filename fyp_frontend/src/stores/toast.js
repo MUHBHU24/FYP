@@ -17,11 +17,11 @@ export const useToastStore = defineStore({
             this.text = text; 
             this.styling = styling; 
             this.isVisible = true; // set the toast to be visible
-            this.toggleToast();
+            // this.toggleToast();
         },
-        // Toggle the visibility of the toast (show/hide), if its on, turn it off, if its off, turn it on
-        toggleToast() {
-          this.isVisible = !this.isVisible;
-        },
+        // Toggle the visibility of the toast (show/hide), if its on, turn it off, if its off, turn it on (currently not used as redundant)
+        // toggleToast() {
+        //   this.isVisible = !this.isVisible;
+        // },
     },
 });
