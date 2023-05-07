@@ -25,14 +25,16 @@ export default {
                 password2: "",
             },
             entryErrors: [],
+            formSubmitted: false,
         };
     },
 
     methods: {
         // Method to handle form submission
         registerForm() {
-            // Reset the entryErrors array
+            // Reset the entryErrors array and set formSubmitted to true to indicate that the form has been submitted
             this.entryErrors = [];
+            this.formSubmitted = true;
 
             // Validate form fields, adding error messages if necessary
             if (this.form.name === "") {
@@ -134,7 +136,7 @@ export default {
                     <!-- Link to log in for existing users -->
                     <p class="fw-bold">
                         <small>
-                            Already have an account? Click
+                            If you are already a member, click
                             <RouterLink to="/login" class="text-primary"
                                 ><mark>here</mark></RouterLink
                             >
@@ -207,17 +209,21 @@ export default {
                         </div>
 
                         <!-- Display validation errors -->
-                        <template v-if="entryErrors">
-                            <div
-                                class="alert alert-danger border border-danger rounded-3 p-4"
-                                v-if="entryErrors.length > 0"
-                            >
-                                <p v-for="err in entryErrors" v-bind:key="err">
-                                    {{ err }}
-                                </p>
-                            </div>
-                        </template>
-
+                        <div
+                            class="alert alert-danger border border-danger rounded-3 p-4"
+                            v-for="(err, index) in entryErrors"
+                            :key="index"
+                        >
+                            {{ err }}
+                        </div>
+                        <!-- Display success message if no errors encountered -->
+                        <div
+                            class="alert alert-success border border-success rounded-3 p-4"
+                            v-if="entryErrors.length === 0 && formSubmitted"
+                        >
+                            Congratulations! You have successfully created an
+                            account.
+                        </div>
                         <!-- Sign up button -->
                         <div>
                             <button class="btn btn-primary">Sign up</button>
