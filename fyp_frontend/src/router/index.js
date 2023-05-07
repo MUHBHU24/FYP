@@ -16,13 +16,17 @@ const router = createRouter({
             component: HomeView,
         },
         {
+            path: '/home',
+            redirect: '/'
+        },
+        {
             path: "/about",
             name: "about",
             component: AboutView,
         },
         {
-            path: "/survey",
-            name: "survey",
+            path: "/surveys",
+            name: "surveys",
             component: SurveyView,
         },
         {
