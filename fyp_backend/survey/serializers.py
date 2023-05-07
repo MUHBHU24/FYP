@@ -1,12 +1,31 @@
 from rest_framework import serializers
-from .models import Comment
+from .models import User, Survey, Question, Answer, Comment
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'city')
+
+class SurveySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Survey
+        fields = ('id', 'title', 'created_by', 'created_at')
+
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = ('survey', 'question_text')
+
+class AnswerSerializer(serializers.ModelSerializer):
+    users_voted = UserSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Answer
+        fields = ('question', 'answer_text', 'votes', 'vote_count', 'users_voted')
 
 class CommentSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.username')
-    avatar = serializers.ImageField(source='user.avatar')
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Comment
-        fields = ['text', 'created_at', 'username', 'avatar']
-
+        fields = ('survey', 'user', 'comment_text', 'created_at')
