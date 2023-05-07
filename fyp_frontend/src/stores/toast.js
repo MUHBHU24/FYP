@@ -11,11 +11,12 @@ export const useToastStore = defineStore({
     }),
     actions: {
         // Add a new toast with the specified properties
-        addToast({ ms, title, message, classes }) {
+        addToast({ ms, title, message, classes}) {
             this.ms = parseInt(ms); // convert the time duration to an integer to avoid errors
             this.title = title;
             this.message = message; 
             this.classes = classes; 
+
             this.isVisible = true; // set the toast to be visible
 
             // animate the toast to slide up

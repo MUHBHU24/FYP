@@ -70,7 +70,7 @@ export default {
                                 ms: 7500,
                                 title: "Success!",
                                 message: "You have successfully registered!",
-                                variant: "success",
+
                             });
 
                             // Reset the form
@@ -85,7 +85,7 @@ export default {
                                 ms: 7500,
                                 title: "Error!",
                                 message: "An error occurred while registering!",
-                                variant: "danger",
+
                             });
                         }
                         // if (response.data.msg === "Success") {
@@ -93,6 +93,7 @@ export default {
                         //         7500,
                         //         "You have successfully registered!",
                         //         "bg-emerald-500"
+                                
                         //     );
                         // } else {
                         //     this.toastStore.showToast(
@@ -108,7 +109,7 @@ export default {
                             ms: 7500,
                             title: "Error!",
                             message: "An error occurred while registering!",
-                            variant: "danger",
+
                         });
                     });
             }
