@@ -5,9 +5,7 @@ from rest_framework.decorators import authentication_classes, permission_classes
 
 # Get user profile
 @api_view(['GET'])
-def my_account(request) -> JsonResponse:
-    print('Authorization header:', request.headers.get('Authorization'))
-
+def myAccount(request) -> JsonResponse:
     # Get user from request object
     user = request.user
 

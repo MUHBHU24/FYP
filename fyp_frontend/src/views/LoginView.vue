@@ -4,6 +4,7 @@ import { useAuthUserStore } from "../stores/AuthUser";
 
 export default {
     setup() {
+        // Initialize the AuthUserStore to handle the user's authentication status and profile
         const AuthUserStore = useAuthUserStore();
 
         return {
@@ -44,11 +45,21 @@ export default {
                     .post("/api/login/", this.form)
                     .then((response) => {
                         // Handle successful login
-                        this.AuthUserStore.createToken(response.data);
+                        // this.AuthUserStore.createToken(response.data);
+                        this.AuthUserStore.createToken({
+                            accessToken: response.data.access,
+                            refreshToken: response.data.refresh,
+                        });
+
+                        console.log(response.data.access);
 
                         axios.defaults.headers.common["Authorization"] =
-                            "Bearer " + response.data.accessToken;
-                            console.log('Authorization header:', axios.defaults.headers.common['Authorization']);
+                            "Bearer " + response.data.access;
+
+                        // console.log(
+                        //     "Authorization header:",
+                        //     axios.defaults.headers.common["Authorization"]
+                        // );
                     })
                     .catch((error) => {
                         // Log the error
@@ -56,7 +67,7 @@ export default {
                     });
 
                 await axios
-                    .get("/api/my_account/")
+                    .get("/api/myAccount/")
                     .then((response) => {
                         // Handle successful profile retrieval
                         this.AuthUserStore.createAuthUser(response.data);

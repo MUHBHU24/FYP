@@ -19,16 +19,16 @@ export const useAuthUserStore = defineStore({
     actions: {
         // Initialise the user store with values from localStorage
         setupStore() {
-            // Check if 'AuthUser.access' exists in localStorage
-            if (localStorage.getItem("AuthUser.access")) {
+            // Check if 'AuthUser.accessToken' exists in localStorage
+            if (localStorage.getItem("AuthUser.accessToken")) {
                 // Set AuthUser object properties from localStorage
                 this.AuthUser.id = localStorage.getItem("AuthUser.id");
                 this.AuthUser.username =
                     localStorage.getItem("AuthUser.username");
                 this.AuthUser.accessToken =
-                    localStorage.getItem("AuthUser.access");
+                    localStorage.getItem("AuthUser.accessToken");
                 this.AuthUser.refreshToken =
-                    localStorage.getItem("AuthUser.refresh");
+                    localStorage.getItem("AuthUser.refreshToken");
                 this.AuthUser.isAuthenticated = true;
 
                 // Call updateToken function to refresh the user's token
@@ -63,23 +63,23 @@ export const useAuthUserStore = defineStore({
             this.AuthUser.refreshToken = data.refreshToken;
             this.AuthUser.isAuthenticated = true;
 
-            console.log('Access token:', this.AuthUser.accessToken);
-            console.log('Refresh token:', this.AuthUser.refreshToken);
-            console.log('AuthUser:', this.AuthUser);
-            console.log('LocalStorage:', localStorage);
-            
+            // console.log("Access token:", this.AuthUser.accessToken);
+            // console.log("Refresh token:", this.AuthUser.refreshToken);
+            // console.log("AuthUser:", this.AuthUser);
+            // console.log("LocalStorage:", localStorage);
 
             // Save the accessToken and refreshToken to localStorage
-            localStorage.setItem("AuthUser.access", data.accessToken);
-            localStorage.setItem("AuthUser.refresh", data.refreshToken);
+            localStorage.setItem("AuthUser.accessToken", data.accessToken);
+            localStorage.setItem("AuthUser.refreshToken", data.refreshToken);
         },
 
         // Update the user's access token by requesting a new token using the refresh token
         updateToken() {
             // Make an axios POST request to refresh the user's access token
             axios
-                .post("/api/survey/refresh/", { // maybe remove /survey/ afterwards
-                    refresh: this.AuthUser.refreshToken,
+                .post("/api/refresh/", {
+                    // Pass the user's refresh token in the request body
+                    refreshToken: this.AuthUser.refreshToken,
                 })
                 .then((response) => {
                     console.log("Token updated", response.data);
@@ -110,11 +110,11 @@ export const useAuthUserStore = defineStore({
             console.log("Removing token");
 
             // Reset AuthUser properties related to authentication
-            this.AuthUser.id = false;
-            this.AuthUser.username = false;
+            this.AuthUser.id = null;
+            this.AuthUser.username = null;
             this.AuthUser.accessToken = null;
             this.AuthUser.refreshToken = null;
-            this.AuthUser.isAuthenticated = false;
+            this.AuthUser.isAuthenticated = false; // no longer authenticated
 
             // Remove the related keys from localStorage
             localStorage.removeItem("AuthUser.id");

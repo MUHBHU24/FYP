@@ -57,6 +57,7 @@ export default {
                 this.entryErrors.push("Please confirm your password!");
             }
 
+            // passwords must match to proceed with registration
             if (this.form.password1 !== this.form.password2) {
                 this.entryErrors.push("The passwords you entered must match!");
             }
