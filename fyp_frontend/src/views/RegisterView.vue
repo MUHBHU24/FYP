@@ -66,51 +66,30 @@ export default {
                     .then((response) => {
                         // Handle successful registration
                         if (response.data.msg === "Success") {
-                            this.toastStore.addToast({
-                                ms: 7500,
+                            this.toastStore.displayToast({
+                                duration: 7500, // Display the toast for 7.5 seconds
                                 title: "Success!",
-                                message: "You have successfully registered!",
-
+                                text: "You have successfully registered!", // Display a success message
+                                styling: "bg-success",
                             });
-
-                            // Reset the form
+                            // Reset the form fields to empty strings after successful registration
                             this.form.name = "";
                             this.form.city = "";
                             this.form.username = "";
                             this.form.password1 = "";
                             this.form.password2 = "";
                         } else {
-                            // Handle registration errors
-                            this.toastStore.addToast({
-                                ms: 7500,
+                            // Handle unsuccessful registration
+                            this.toastStore.displayToast({
+                                duration: 7500, // Display the toast for 7.5 seconds
                                 title: "Error!",
-                                message: "An error occurred while registering!",
-
+                                text: "An error occurred while registering!", // Display an error message
+                                styling: "bg-danger",
                             });
                         }
-                        // if (response.data.msg === "Success") {
-                        //     this.toastStore.showToast(
-                        //         7500,
-                        //         "You have successfully registered!",
-                        //         "bg-emerald-500"
-                                
-                        //     );
-                        // } else {
-                        //     this.toastStore.showToast(
-                        //         7500,
-                        //         "An error occurred while registering!",
-                        //         "bg-red-500"
-                        //     );
-                        // }
                     })
                     .catch((error) => {
-                        // Handle errors that occurred during API request
-                        this.toastStore.addToast({
-                            ms: 7500,
-                            title: "Error!",
-                            message: "An error occurred while registering!",
-
-                        });
+                        console.log("We have encountered a problem", error); // Log the error
                     });
             }
         },
@@ -228,17 +207,13 @@ export default {
                         </div>
 
                         <!-- Display validation errors -->
-                        <template>
+                        <template v-if="entryErrors">
                             <div
                                 class="alert alert-danger border border-danger rounded-3 p-4"
                                 v-if="entryErrors.length > 0"
                             >
-                                <p
-                                    v-for="error in entryErrors"
-                                    :key="error"
-                                    class="mb-0"
-                                >
-                                    {{ error }}
+                                <p v-for="err in entryErrors" v-bind:key="err">
+                                    {{ err }}
                                 </p>
                             </div>
                         </template>
