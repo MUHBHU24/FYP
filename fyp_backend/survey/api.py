@@ -11,7 +11,7 @@ def register(request) -> JsonResponse:
     msg = "Success"
 
     form = registerForm({
-        'name': data['name'],
+        'first_name': data['first_name'],
         'city': data['city'],
         'username': data['username'],
         'password1': data['password1'],

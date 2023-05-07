@@ -12,13 +12,13 @@ class User(AbstractUser): # Extends the default Django User model with additiona
     def __str__(self) -> str:
         return self.username
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict: # Returns a dictionary representation of the user
         return {
             'id': self.id,
             'first_name': self.first_name,
             'username': self.username,
             'city': self.city,
-            'avatar': self.avatar.url if self.avatar else None,           
+            'avatar': self.avatar.url if self.avatar else None, # Return the URL of the avatar if it exists, otherwise return None        
             'age': self.age,
             'bio': self.bio,
         }
@@ -49,6 +49,7 @@ class Question(models.Model): # A question belongs to a survey and has multiple 
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
     question_text = models.CharField(max_length=50, blank=False, null=False, unique=True, help_text="Enter the question text", error_messages={'unique': "This question already exists."})
     answer_choices = models.CharField(max_length=15, blank=False, null=False)  # Store answer choices as a JSON string or delimited string
+    pub_date = models.DateTimeField("Date published", default=timezone.now)
 
     def __str__(self) -> str:
         return self.question_text

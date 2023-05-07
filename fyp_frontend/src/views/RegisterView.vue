@@ -18,7 +18,7 @@ export default {
         // Define the form object and entryErrors array for handling form input and validation errors
         return {
             form: {
-                name: "",
+                first_name: "",
                 city: "",
                 username: "",
                 password1: "",
@@ -37,8 +37,8 @@ export default {
             this.formSubmitted = true;
 
             // Validate form fields, adding error messages if necessary
-            if (this.form.name === "") {
-                this.entryErrors.push("Name required!");
+            if (this.form.first_name === "") {
+                this.entryErrors.push("First Name required!");
             }
 
             if (this.form.city === "") {
@@ -75,7 +75,7 @@ export default {
                                 styling: "bg-success",
                             });
                             // Reset the form fields to empty strings after successful registration
-                            this.form.name = "";
+                            this.form.first_name = "";
                             this.form.city = "";
                             this.form.username = "";
                             this.form.password1 = "";
@@ -155,12 +155,12 @@ export default {
                     <form @submit.prevent="registerForm">
                         <!-- Name input field -->
                         <div class="mb-3">
-                            <label class="form-label">Name</label>
+                            <label class="form-label">First Name</label>
                             <input
                                 type="text"
                                 placeholder="Enter your name..."
                                 class="form-control"
-                                v-model="form.name"
+                                v-model="form.first_name"
                             />
                         </div>
 
