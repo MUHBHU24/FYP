@@ -1,4 +1,11 @@
-<script></script>
+<script>
+export default {
+    name: 'ProfileView',
+
+    methods: {
+    }
+}
+</script>
 
 <template>
     <div class="profile">

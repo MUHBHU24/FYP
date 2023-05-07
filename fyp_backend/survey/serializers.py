@@ -9,7 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
 class SurveySerializer(serializers.ModelSerializer):
     class Meta:
         model = Survey
-        fields = ('id', 'title', 'created_by', 'created_at')
+        fields = ('id', 'title', 'created_by', 'created_at', 'getImage', 'urlSlug', )
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
