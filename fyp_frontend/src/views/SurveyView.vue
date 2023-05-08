@@ -7,7 +7,7 @@ export default {
     name: "SurveyView",
 
     components: {
-        SurveyView,
+        SurveyDetail,
     },
 
     data() {
@@ -18,7 +18,7 @@ export default {
     },
 
     mounted() {
-        this.getAllSurveys();
+        this.getAllSurveysCall();
     },
 
     methods: {
@@ -34,9 +34,9 @@ export default {
             //   });
         },
 
-        getAllSurveys() {
+        getAllSurveysCall() {
             axios
-                .get("api/getAllSurveys/") 
+                .get("api/surveys/") 
                 .then((response) => {
                     this.getAllSurveys = response.data; // an array of objects containing all surveys in the database
                 })
@@ -46,36 +46,36 @@ export default {
         }
     },
 
-    async created() {
-        try {
-            // Uncomment the following line and replace the placeholder with your actual API call to fetch the surveys
-            // const response = await axios.get("/api/v1/surveys/");
-            // this.surveys = response.data.surveys;
+    // async created() {
+    //     try {
+    //         // Uncomment the following line and replace the placeholder with your actual API call to fetch the surveys
+    //         // const response = await axios.get("/api/v1/surveys/");
+    //         // this.surveys = response.data.surveys;
 
-            this.surveys = [
-                {
-                    id: 1,
-                    title: "Sample Survey 1",
-                    createdBy: "User1",
-                    createdAt: "2023-05-07T10:00:00Z",
-                },
-                {
-                    id: 2,
-                    title: "Sample Survey 2",
-                    createdBy: "User2",
-                    createdAt: "2023-05-06T10:00:00Z",
-                },
-                {
-                    id: 3,
-                    title: "Sample Survey 3",
-                    createdBy: "User3",
-                    createdAt: "2023-05-05T10:00:00Z",
-                },
-            ];
-        } catch (error) {
-            console.log("Error fetching surveys:", error);
-        }
-    },
+    //         this.surveys = [
+    //             {
+    //                 id: 1,
+    //                 title: "Sample Survey 1",
+    //                 createdBy: "User1",
+    //                 createdAt: "2023-05-07T10:00:00Z",
+    //             },
+    //             {
+    //                 id: 2,
+    //                 title: "Sample Survey 2",
+    //                 createdBy: "User2",
+    //                 createdAt: "2023-05-06T10:00:00Z",
+    //             },
+    //             {
+    //                 id: 3,
+    //                 title: "Sample Survey 3",
+    //                 createdBy: "User3",
+    //                 createdAt: "2023-05-05T10:00:00Z",
+    //             },
+    //         ];
+    //     } catch (error) {
+    //         console.log("Error fetching surveys:", error);
+    //     }
+    // },
 };
 </script>
 
