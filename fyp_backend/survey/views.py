@@ -7,7 +7,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
-class newestSurvey(APIView):
+class getAllSurveys(APIView):
+
     def get(self, request) -> Response:
         surveys = Survey.objects.all().order_by('-created_at')[:1] # Get the most recent survey
         serializer = SurveySerializer(surveys, many=True)
