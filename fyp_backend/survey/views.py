@@ -42,3 +42,4 @@ def index(request) -> render:
 #     comments = Comment.objects.filter(survey=survey).select_related('user').order_by('created_at')
 #     serializer = CommentSerializer(comments, many=True)
 #     return JsonResponse(serializer.data, safe=False)
+

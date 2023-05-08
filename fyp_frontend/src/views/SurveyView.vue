@@ -25,14 +25,14 @@ export default {
     methods: {
         executeSearch() {
             // need to change the following and replace the placeholders with actual API call to fetch the filtered surveys
-            // axios
-            //   .post("api/surveys/find/", { query: this.searchText })
-            //   .then((response) => {
-            //     this.surveys = response.data.surveys;
-            //   })
-            //   .catch((error) => {
-            //     console.log("Error fetching filtered surveys:", error);
-            //   });
+            axios
+              .get("api/surveys/search_surveys", { query: this.searchText })
+              .then((response) => {
+                this.surveys = response.data.surveys;
+              })
+              .catch((error) => {
+                console.log("Error fetching filtered surveys:", error);
+              });
         },
 
         getAllSurveysCall() {
@@ -118,6 +118,7 @@ export default {
                     :image="survey.item_image"
                     :title="survey.title"
                     :createdBy="survey.created_by.username"
+                    :slug="survey.slug"
                 />
             </div>
         </div>

@@ -1,6 +1,10 @@
 from django.http import JsonResponse
 from .forms import registerForm
 from rest_framework.decorators import authentication_classes, permission_classes, api_view
+from rest_framework.response import Response
+from django.db.models import Q
+from .models import Survey, Question, Answer, Comment
+from .serializers import SurveySerializer, CommentSerializer, AnswerSerializer, QuestionSerializer, UserSerializer
 
 
 # Get user profile
@@ -44,3 +48,23 @@ def register(request) -> JsonResponse:
         print("Form errors: ", form.errors)  # Print errors to console
 
     return JsonResponse({'msg': msg})
+
+
+# search function for surveys (used in search bar)
+@api_view(['GET'])
+def search_surveys(request) -> Response:
+    query = request.GET.get('query')
+
+    # If no query, just return all surveys
+    if not query:
+        surveys = Survey.objects.all()
+        serialized_surveys = [survey.serialize() for survey in surveys]
+        return Response(serialized_surveys)
+    # otheriwse, return surveys that match the query
+    elif query:
+        surveys = Survey.objects.filter(Q(title__icontains=query))
+        serialized_surveys = [survey.serialize() for survey in surveys]
+        return Response(serialized_surveys)
+    # If no surveys match the query, return an empty list
+    else:
+        return Response({'surveys': []})

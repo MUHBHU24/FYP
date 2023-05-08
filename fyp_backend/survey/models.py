@@ -9,7 +9,7 @@ class User(AbstractUser):  # Extends the default Django User model with addition
     city = models.CharField(max_length=60, blank=False, null=False)
     age = models.IntegerField(blank=True, null=True)
     bio = models.TextField(max_length=200, blank=True, null=True)
-    avatar = models.ImageField(upload_to='', blank=True, null=True)
+    avatar = models.ImageField(upload_to='../images/avatar/', blank=True, null=True)
 
     def __str__(self) -> str:
         return self.username
@@ -42,7 +42,7 @@ class User(AbstractUser):  # Extends the default Django User model with addition
 class Survey(models.Model):  # A survey contains one question and multiple answers to choose from
     title = models.CharField(
         max_length=20, unique=True, blank=False, null=False)
-    item_image = models.ImageField(upload_to='', blank=True, null=True)
+    item_image = models.ImageField(upload_to='../images/items/', blank=True, null=True)
     # if user is deleted, delete all surveys created by user
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

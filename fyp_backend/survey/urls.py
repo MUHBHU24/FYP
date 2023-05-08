@@ -7,6 +7,7 @@ urlpatterns = [
     path('myAccount/', api.myAccount, name='myAccount'), # Get user profile
     path('register/', api.register, name='register'), # Register
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'), # Login
+    path('surveys/search/', api.search_surveys, name='search_surveys'), # Search surveys
     path('surveys/', views.getAllSurveys.as_view(), name='getAllSurveys'), # Get the most recent surveys
     # path('/api/surveys/', api.surveys, name='surveys'), # Get all surveys
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh'), # Refresh token
