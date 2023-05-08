@@ -50,6 +50,15 @@ def register(request) -> JsonResponse:
     return JsonResponse({'msg': msg})
 
 
+# Get all surveys (used in home page) recent first
+@api_view(['GET'])
+def getAllSurveys(request) -> JsonResponse:
+    surveys = Survey.objects.all().order_by('-created_at')[:1] # Get the most recent survey
+    serializer = SurveySerializer(surveys, many=True) # can have many surveys
+
+    return JsonResponse({'data': serializer.data})
+
+
 # search function for surveys (used in search bar)
 @api_view(['GET'])
 def search_surveys(request) -> Response:
