@@ -20,11 +20,11 @@ export default {
         this.AuthUserStore.setupStore();
 
         // Set the default Authorization header to the user's token
-        const token = this.AuthUserStore.AuthUser.accessToken;
+        const tokenForAuth = this.AuthUserStore.AuthUser.accessToken;
 
         // If the user is logged in, set the Authorization header to the user's token
-        if (token) {
-            axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+        if (tokenForAuth) {
+            axios.defaults.headers.common["Authorization"] = "Bearer " + tokenForAuth;
         } else {
             axios.defaults.headers.common["Authorization"] = null; // Delete the token from the header if the user is not logged in to prevent errors
         }

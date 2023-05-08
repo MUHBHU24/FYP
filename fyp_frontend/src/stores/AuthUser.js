@@ -20,9 +20,10 @@ export const useAuthUserStore = defineStore({
         // Initialise the user store with values from localStorage
         setupStore() {
             // Check if 'AuthUser.accessToken' exists in localStorage
-            if (localStorage.getItem("AuthUser.accessToken")) {
+            if (localStorage.getItem("AuthUser.accessToken")) { // add this != null && localStorage.getItem("AuthUser.refreshToken") != null
                 // Set AuthUser object properties from localStorage
-                this.AuthUser.id = localStorage.getItem("AuthUser.id");
+                this.AuthUser.id = 
+                    localStorage.getItem("AuthUser.id");
                 this.AuthUser.username =
                     localStorage.getItem("AuthUser.username");
                 this.AuthUser.accessToken =
@@ -41,7 +42,7 @@ export const useAuthUserStore = defineStore({
 
         // Create a new user and store the user's ID and username
         createAuthUser(AuthUser) {
-            console.log("Creating user", AuthUser);
+            console.log("Creating user: ", AuthUser);
 
             // Set AuthUser properties based on the input AuthUser
             this.AuthUser.id = AuthUser.id;
@@ -51,7 +52,7 @@ export const useAuthUserStore = defineStore({
             localStorage.setItem("AuthUser.id", this.AuthUser.id);
             localStorage.setItem("AuthUser.username", this.AuthUser.username);
 
-            console.log("User created", this.AuthUser);
+            console.log("Successfully created: ", this.AuthUser);
         },
 
         // Create and store a new user token
@@ -76,13 +77,14 @@ export const useAuthUserStore = defineStore({
         // Update the user's access token by requesting a new token using the refresh token
         updateToken() {
             // Make an axios POST request to refresh the user's access token
+            console.log('Updating token to:' + this.AuthUser.refreshToken)
             axios
                 .post("/api/refresh/", {
                     // Pass the user's refresh token in the request body
-                    refreshToken: this.AuthUser.refreshToken,
+                    refresh: this.AuthUser.refreshToken,
                 })
                 .then((response) => {
-                    console.log("Token updated", response.data);
+                    console.log("Token updated: ", response.data); 
 
                     // Update the AuthUser.accessToken with the new access token from the response
                     this.AuthUser.accessToken = response.data.accessToken;

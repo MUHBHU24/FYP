@@ -48,7 +48,7 @@ export default {
                         // this.AuthUserStore.createToken(response.data);
                         this.AuthUserStore.createToken({
                             accessToken: response.data.access,
-                            refreshToken: response.data.refresh,
+                            refreshToken: response.data.refreshToken,
                         });
 
                         console.log(response.data.access);
