@@ -24,25 +24,28 @@ export default {
 
     methods: {
         executeSearch() {
-            // need to change the following and replace the placeholders with actual API call to fetch the filtered surveys
+            // API call to get the filtered surveys from the backend and store them in the data variable
             axios
-              .get("api/surveys/search_surveys", { query: this.searchText })
-              .then((response) => {
-                this.surveys = response.data.surveys;
-              })
-              .catch((error) => {
-                console.log("Error fetching filtered surveys:", error);
-              });
+                .get("/api/surveys/search?query=" + this.searchText)
+                .then((response) => {
+                    this.getAllSurveys = response.data.surveys;
+                })
+                .catch((error) => {
+                    console.log("Error fetching filtered surveys: ", error);
+                });
         },
 
         getAllSurveysCall() {
+            // API call to get all surveys from the backend and store them in the data variable (list of surveys)
             axios
-                .get("api/surveys/")
+                .get("/api/surveys/")
                 .then((response) => {
+                    console.log("data", response.data);
+
                     this.getAllSurveys = response.data; // an array of objects containing all surveys in the database
                 })
                 .catch((error) => {
-                    console.log("Error fetching surveys:", error); // show error message if something goes wrong
+                    console.log("Error fetching surveys: ", error); // show error message if something goes wrong
                 });
         },
 
@@ -54,7 +57,7 @@ export default {
 
     // async created() {
     //     try {
-    //         // Uncomment the following line and replace the placeholder with your actual API call to fetch the surveys
+    //         // Uncomment the following line and replace the placeholder with actual API call to fetch the surveys
     //         // const response = await axios.get("/api/surveys/");
     //         // this.surveys = response.data.surveys;
 
@@ -106,20 +109,23 @@ export default {
             </div>
         </div>
         <div
-            class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 gy-4"
+            class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 gy-4"
         >
             <div
                 v-for="survey in getAllSurveys"
                 :key="survey.id"
                 @click="selectSurvey(survey.slug)"
             >
+            <template v-if="survey.id">
+                test
                 <SurveyDetail
                     :survey="survey"
                     :image="survey.item_image"
                     :title="survey.title"
-                    :createdBy="survey.created_by.username"
+                    :createdBy="survey.created_by?.username ?? 'Anonymous'"
                     :slug="survey.slug"
                 />
+            </template>
             </div>
         </div>
     </div>

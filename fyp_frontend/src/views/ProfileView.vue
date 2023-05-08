@@ -1,4 +1,6 @@
 <script>
+import axios from "axios";
+
 export default {
     data() {
         return {
@@ -16,7 +18,7 @@ export default {
             // Update user profile using API call
             try {
                 // Replace the following line with API call to update the user profile
-                await this.$http.put(`/api/myAccount/${this.$route.params.id}/`, this.user);
+                await axios.put(`/api/myAccount/${this.$route.params.id}/`, this.user);
                 console.log("User profile updated successfully");
             } catch (error) {
                 console.error(
@@ -30,7 +32,7 @@ export default {
         // Fetch user profile using API call
         try {
             // Replace the following line with API call to fetch the user profile
-            const response = await this.$http.get(`/api/myAccount/${this.$route.params.id}/`);
+            const response = await axios.get(`/api/myAccount/${this.$route.params.id}/`);
             this.user = response.data;
             console.log("User profile fetched successfully");
         } catch (error) {

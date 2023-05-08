@@ -1,6 +1,7 @@
 <script>
 import axios from "axios";
 import { useAuthUserStore } from "../stores/AuthUser";
+import jwt_decode from "jwt-decode";
 
 export default {
     setup() {
@@ -21,6 +22,7 @@ export default {
             },
             // Initialize the entryErrors array for handling form validation errors
             entryErrors: [],
+            userId: null,
         };
     },
 
@@ -43,7 +45,7 @@ export default {
             if (this.entryErrors.length === 0) {
                 await axios
                     .post("/api/login/", this.form)
-                    .then((response) => {
+                    .then(async (response) => {
                         // Handle successful login
                         // this.AuthUserStore.createToken(response.data);
                         this.AuthUserStore.createToken({
@@ -56,23 +58,36 @@ export default {
                         axios.defaults.headers.common["Authorization"] =
                             "Bearer " + response.data.access;
 
+                        // Decode the token to get the user ID
+                        const decodedToken= jwt_decode(response.data.access);
+                        const userId = decodedToken.user_id;
+
+                        console.log(userId);
+
                         // console.log(
                         //     "Authorization header:",
                         //     axios.defaults.headers.common["Authorization"]
                         // );
-                    })
-                    .catch((error) => {
-                        // Log the error
-                        console.log("We have encountered a problem: ", error);
-                    });
+                        await axios
+                            .get(
+                                `/api/myAccount/${userId}/`
+                            )
+                            .then((response) => {
+                                // Handle successful profile retrieval
+                                this.AuthUserStore.createAuthUser(
+                                    response.data
+                                );
 
-                await axios
-                    .get("/api/myAccount/")
-                    .then((response) => {
-                        // Handle successful profile retrieval
-                        this.AuthUserStore.createAuthUser(response.data);
-                        // Redirect the user to their profile page
-                        this.$router.push("/profile");
+                                // Redirect the user to their profile page
+                                this.$router.push({ name: 'profile' });
+                            })
+                            .catch((error) => {
+                                // Log the error
+                                console.log(
+                                    "Error when trying to redirect to profile page ",
+                                    error
+                                );
+                            });
                     })
                     .catch((error) => {
                         // Log the error

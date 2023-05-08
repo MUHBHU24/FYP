@@ -6,6 +6,7 @@ import ResultsView from "../views/ResultsView.vue";
 import ProfileView from "../views/ProfileView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import LoginView from "../views/LoginView.vue";
+import SurveyDetail from "../components/SurveyDetail.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,9 +26,15 @@ const router = createRouter({
             component: AboutView,
         },
         {
-            path: "/surveys/:slug?",
+            path: "/surveys",
             name: "surveys",
             component: SurveyView,
+        },
+        {
+            path: "/survey/:slug",
+            name: "survey-detail",
+            component: SurveyDetail,
+            props: true
         },
         {
             path: "/results",

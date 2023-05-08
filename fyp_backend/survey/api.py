@@ -53,27 +53,48 @@ def register(request) -> JsonResponse:
 # Get all surveys (used in home page) recent first
 @api_view(['GET'])
 def getAllSurveys(request) -> JsonResponse:
-    surveys = Survey.objects.all().order_by('-created_at')[:1] # Get the most recent survey
-    serializer = SurveySerializer(surveys, many=True) # can have many surveys
+    # Get the most recent surveys first (descending order)
+    surveys = Survey.objects.all().order_by('-created_at')
+    serializer = SurveySerializer(surveys, many=True)  # can have many surveys
 
-    return JsonResponse({'data': serializer.data})
+    # safe=False because we are returning a list
+    return JsonResponse(serializer.data, safe=False, status=200)
 
 
 # search function for surveys (used in search bar)
 @api_view(['GET'])
-def search_surveys(request) -> Response:
+def search_surveys(request) -> JsonResponse:
     query = request.GET.get('query')
 
     # If no query, just return all surveys
     if not query:
         surveys = Survey.objects.all()
-        serialized_surveys = [survey.serialize() for survey in surveys]
-        return Response(serialized_surveys)
-    # otheriwse, return surveys that match the query
-    elif query:
-        surveys = Survey.objects.filter(Q(title__icontains=query))
-        serialized_surveys = [survey.serialize() for survey in surveys]
-        return Response(serialized_surveys)
-    # If no surveys match the query, return an empty list
+    # otherwise, return surveys that match the query
     else:
-        return Response({'surveys': []})
+        surveys = Survey.objects.filter(Q(title__icontains=query))
+
+    serializer = SurveySerializer(surveys, many=True)
+    
+    return JsonResponse({'surveys': serializer.data}, status=200)
+
+
+# get survey details for a specific survey (slug)
+@api_view(['GET'])
+def get_survey_details(request, survey_slug) -> JsonResponse:
+    try:
+        survey = Survey.objects.get(slug=survey_slug)
+    except Survey.DoesNotExist:
+        return JsonResponse({'error': 'Survey not found'}, status=404)
+
+    question = Question.objects.get(survey=survey)
+    answers = Answer.objects.filter(question=question)
+
+    survey_serializer = SurveySerializer(survey)
+    question_serializer = QuestionSerializer(question)
+    answers_serializer = AnswerSerializer(answers, many=True)
+
+    return JsonResponse({
+        'survey': survey_serializer.data,
+        'question': question_serializer.data,
+        'answers': answers_serializer.data
+    }, status=200)
