@@ -5,15 +5,14 @@ export default {
 	components: {
 		SurveyComments,
 	},
-	data() {
-		return {
-			surveyId: null, // This should be set to the actual survey ID
-		};
+	computed: {
+		surveyId() {
+			return this.$route.params.surveyId;
+		},
 	},
-	// other methods and lifecycle hooks
 };
 </script>
 
 <template>
-	  <survey-comments :survey-id="surveyId"></survey-comments> <!-- change surveyId to use vue router, maybe this.$route.params.surveyId -->
+	<survey-comments :survey-id="surveyId"></survey-comments>
 </template>

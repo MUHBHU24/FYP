@@ -5,13 +5,17 @@ export default {
             comments: [],
         };
     },
-    props: {
-        surveyId: Number,
-    },
-    async created() {
-        const response = await fetch(`/api/survey_comments/${this.surveyId}/`);
-        this.comments = await response.json();
-    },
+    props: ["surveyId"],
+
+    // async created() {
+    //     try {
+    //         const response = await fetch(`/api/survey_comments/${this.surveyId}/`);
+
+    //         this.comments = await response.json();
+    //     } catch (error) {
+    //         console.log("Error fetching comments:", error);
+    //     }
+    // },
 };
 </script>
 

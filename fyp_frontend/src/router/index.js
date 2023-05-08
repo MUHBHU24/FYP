@@ -25,7 +25,7 @@ const router = createRouter({
             component: AboutView,
         },
         {
-            path: "/surveys",
+            path: "/surveys/:slug?",
             name: "surveys",
             component: SurveyView,
         },

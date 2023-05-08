@@ -1,7 +1,8 @@
 <script>
 import axios from "axios";
-import { RouterLink } from "vue-router";
+import { useRouter } from "vue-router";
 import SurveyDetail from "../components/SurveyDetail.vue";
+import { ref, watchEffect } from "vue";
 
 export default {
     name: "SurveyView",
@@ -25,7 +26,7 @@ export default {
         executeSearch() {
             // need to change the following and replace the placeholders with actual API call to fetch the filtered surveys
             // axios
-            //   .post("api/v1/surveys/find/", { query: this.searchText })
+            //   .post("api/surveys/find/", { query: this.searchText })
             //   .then((response) => {
             //     this.surveys = response.data.surveys;
             //   })
@@ -36,20 +37,25 @@ export default {
 
         getAllSurveysCall() {
             axios
-                .get("api/surveys/") 
+                .get("api/surveys/")
                 .then((response) => {
                     this.getAllSurveys = response.data; // an array of objects containing all surveys in the database
                 })
                 .catch((error) => {
                     console.log("Error fetching surveys:", error); // show error message if something goes wrong
                 });
-        }
+        },
+
+        selectSurvey(slug) {
+            const router = useRouter();
+            router.push({ name: "surveys", params: { slug: slug } });
+        },
     },
 
     // async created() {
     //     try {
     //         // Uncomment the following line and replace the placeholder with your actual API call to fetch the surveys
-    //         // const response = await axios.get("/api/v1/surveys/");
+    //         // const response = await axios.get("/api/surveys/");
     //         // this.surveys = response.data.surveys;
 
     //         this.surveys = [
@@ -102,18 +108,18 @@ export default {
         <div
             class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 gy-4"
         >
-            <RouterLink
-                :to="{ name: 'SurveyDetail', params: { slug: survey.slug } }"
-                v-for="survey in surveys"
+            <div
+                v-for="survey in getAllSurveys"
                 :key="survey.id"
+                @click="selectSurvey(survey.slug)"
             >
-                <SurveyItem
+                <SurveyDetail
                     :survey="survey"
                     :image="survey.item_image"
                     :title="survey.title"
                     :createdBy="survey.created_by.username"
                 />
-            </RouterLink>
+            </div>
         </div>
     </div>
 </template>
