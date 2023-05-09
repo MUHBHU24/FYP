@@ -1,15 +1,9 @@
 <script>
 import axios from "axios";
 import { useRouter } from "vue-router";
-import SurveyDetail from "../components/SurveyDetail.vue";
-import { ref, watchEffect } from "vue";
 
 export default {
     name: "SurveyView",
-
-    components: {
-        SurveyDetail,
-    },
 
     data() {
         return {
@@ -54,37 +48,6 @@ export default {
             router.push({ name: "surveys", params: { slug: slug } });
         },
     },
-
-    // async created() {
-    //     try {
-    //         // Uncomment the following line and replace the placeholder with actual API call to fetch the surveys
-    //         // const response = await axios.get("/api/surveys/");
-    //         // this.surveys = response.data.surveys;
-
-    //         this.surveys = [
-    //             {
-    //                 id: 1,
-    //                 title: "Sample Survey 1",
-    //                 createdBy: "User1",
-    //                 createdAt: "2023-05-07T10:00:00Z",
-    //             },
-    //             {
-    //                 id: 2,
-    //                 title: "Sample Survey 2",
-    //                 createdBy: "User2",
-    //                 createdAt: "2023-05-06T10:00:00Z",
-    //             },
-    //             {
-    //                 id: 3,
-    //                 title: "Sample Survey 3",
-    //                 createdBy: "User3",
-    //                 createdAt: "2023-05-05T10:00:00Z",
-    //             },
-    //         ];
-    //     } catch (error) {
-    //         console.log("Error fetching surveys:", error);
-    //     }
-    // },
 };
 </script>
 
@@ -108,30 +71,32 @@ export default {
                 </button>
             </div>
         </div>
-        <div
-            class="card-group"
-        >
-        <div class="card">
+        <div class="row">
             <div
-                class="card-body"
+                class="col-sm-4"
                 v-for="survey in getAllSurveys"
                 :key="survey.id"
-                @click="selectSurvey(survey.slug)"
             >
-            <template v-if="survey.id">
-                test
-                <SurveyDetail
-                    :survey="survey"
-                    :image="survey.item_image"
-                    :title="survey.title"
-                    :createdBy="survey.created_by?.username ?? 'Anonymous'"
-                    :slug="survey.slug"
-                    class = "card-img-top"
+                <div
+                    class="card"
+                    style="width: 18rem"
+                    @click="selectSurvey(survey.slug)"
                 >
-            
-            </SurveyDetail>
-            </template>
-        </div>
+                    <img
+                        :src="survey.image"
+                        class="card-img-top"
+                        alt="Survey Image"
+                    />
+                    <div class="card-body">
+                        <h4 class="card-title">{{ survey.title }}</h4>
+                        <p class="card-text">
+                            {{ survey.description }}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        Posted by {{ survey.author?.username ?? "Anonymous" }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
