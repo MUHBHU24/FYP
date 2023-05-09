@@ -17,6 +17,18 @@ export default {
     },
 
     methods: {
+        getImage(survey) {
+            if (survey.item_image) {
+                return survey.item_image;
+            } else {
+                return "../assets/fyp_blankItem.png";
+            }
+        },
+
+        handleImageError(event) {
+            event.target.src = "../assets/fyp_blankItem.png";
+        },
+
         executeSearch() {
             // API call to get the filtered surveys from the backend and store them in the data variable
             axios
@@ -83,7 +95,7 @@ export default {
                     @click="selectSurvey(survey.slug)"
                 >
                     <img
-                        :src="survey.item_image"
+                        :src="getImage(survey)"
                         class="card-img-top"
                         alt="Survey Image"
                     />
@@ -92,6 +104,7 @@ export default {
                         <p class="card-text">
                             This is a survey for the item: {{ survey.title }}
                         </p>
+                        <button class="btn btn-primary">Take Survey</button>
                     </div>
                     <div class="card-footer">
                         Posted by {{ survey.author?.username ?? "Anonymous" }}
