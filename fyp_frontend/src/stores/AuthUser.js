@@ -20,7 +20,7 @@ export const useAuthUserStore = defineStore({
         // Initialise the user store with values from localStorage
         setupStore() {
             // Check if 'AuthUser.accessToken' exists in localStorage
-            if (localStorage.getItem("AuthUser.accessToken")) { // add this != null && localStorage.getItem("AuthUser.refreshToken") != null
+            if (localStorage.getItem("AuthUser.accessToken")) { // maybe add this != null && localStorage.getItem("AuthUser.refreshToken") != null
                 // Set AuthUser object properties from localStorage
                 this.AuthUser.id = 
                     localStorage.getItem("AuthUser.id");
@@ -104,6 +104,7 @@ export const useAuthUserStore = defineStore({
 
                     // If there's an error, call deleteToken() to remove the user's tokens and reset authentication status
                     this.deleteToken();
+                    this.$router.push("/login");
                 });
         },
 

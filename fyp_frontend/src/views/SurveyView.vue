@@ -21,15 +21,30 @@ export default {
     methods: {
         getImage(survey) {
             if (survey.item_image) {
-                return survey.item_image;
+                return "http://localhost:8000/media/" + survey.item_image;
             } else {
-                return this.defaultItem
+                return this.defaultItem;
             }
         },
 
-        // handleImageError(event) {
-        //     event.target.src = "../assets/fyp_blankItem.png";
-        // },
+        exportSurveyResponses(surveySlug) {
+            const url = `/api/surveys/${surveySlug}/export-responses/`;
+            axios
+                .get(url, { responseType: "blob" })
+                .then((response) => {
+                    const url = window.URL.createObjectURL(
+                        new Blob([response.data])
+                    );
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.setAttribute("download", "survey-responses.csv");
+                    document.body.appendChild(link);
+                    link.click();
+                })
+                .catch((error) => {
+                    console.log("Error exporting survey responses: ", error);
+                });
+        },
 
         executeSearch() {
             // API call to get the filtered surveys from the backend and store them in the data variable
@@ -92,7 +107,7 @@ export default {
                 :key="survey.id"
             >
                 <div
-                    class="card"
+                    class="card mb-3"
                     style="width: 18rem"
                     @click="selectSurvey(survey.slug)"
                 >
@@ -107,9 +122,16 @@ export default {
                             This is a survey for the item: {{ survey.title }}
                         </p>
                         <button class="btn btn-primary">Take Survey</button>
+                        <button
+                            class="btn btn-sm btn-secondary float-end mt-2"
+                            @click.stop="exportSurveyResponses(survey.slug)"
+                        >
+                            Export
+                        </button>
                     </div>
                     <div class="card-footer">
-                        Posted by {{ survey.created_by?.username ?? "Anonymous" }}
+                        Posted by
+                        {{ survey.created_by?.username ?? "Anonymous" }}
                     </div>
                 </div>
             </div>

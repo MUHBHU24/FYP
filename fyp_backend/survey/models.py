@@ -43,7 +43,7 @@ class User(AbstractUser):  # Extends the default Django User model with addition
 class Survey(models.Model):  # A survey contains one question and multiple answers to choose from
     title = models.CharField(
         max_length=20, unique=True, blank=False, null=False)
-    item_image = models.ImageField(upload_to='images/items/', blank=True, null=True)
+    item_image = models.ImageField(upload_to='', blank=True, null=True)
     # if user is deleted, delete all surveys created by user
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -70,18 +70,17 @@ class Survey(models.Model):  # A survey contains one question and multiple answe
             self.slug = self._generate_unique_slug(slug_candidate)
         super(Survey, self).save(*args, **kwargs)
 
-    # method below is not used anymore because we are using AutoSlugField instead
     # Generate a unique slug for the survey (e.g. "my-survey" -> "my-survey-abc1") if it already exists in the database
-    # def _generate_unique_slug(self, slug_candidate):
-    #     MAX_RETRIES = 10 # Maximum number of times to try generating a unique slug
-    #     for i in range(MAX_RETRIES):
-    #         if not Survey.objects.filter(slug=slug_candidate).exists():
-    #             return slug_candidate
+    def _generate_unique_slug(self, slug_candidate):
+        MAX_RETRIES = 10 # Maximum number of times to try generating a unique slug
+        for i in range(MAX_RETRIES):
+            if not Survey.objects.filter(slug=slug_candidate).exists():
+                return slug_candidate
 
-    #         # If slug_candidate already exists, append a random 4-character string and try again
-    #         slug_candidate = f"{slug_candidate}-{get_random_string(4)}"
+            # If slug_candidate already exists, append a random 4-character string and try again
+            slug_candidate = f"{slug_candidate}-{get_random_string(4)}"
 
-    #     raise ValueError("Could not generate a unique slug for the survey") # else raise an error if we've tried too many times
+        raise ValueError("Could not generate a unique slug for the survey") # else raise an error if we've tried too many times
 
     def __str__(self) -> str:
         return self.title
@@ -99,7 +98,7 @@ class Question(models.Model):  # A question belongs to a survey and has multiple
 
 class Answer(models.Model):  # An answer belongs to a question and is selected by a user
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    selected_answer = models.CharField(max_length=15, blank=False, null=False)
+    answer_choice = models.CharField(max_length=15, blank=False, null=False)
     # Users who selected this answer (for location later)
     users_voted = models.ManyToManyField(
         User, related_name="users_voted", blank=True)
@@ -107,7 +106,7 @@ class Answer(models.Model):  # An answer belongs to a question and is selected b
     vote_count = models.IntegerField(default=0)
 
     def __str__(self) -> str:
-        return self.selected_answer
+        return self.answer_choice
 
 
 class Comment(models.Model):  # A comment belongs to a survey and is made by a user

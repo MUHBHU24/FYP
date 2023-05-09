@@ -159,5 +159,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = 'fyp_backend/images/items/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'fyp_backend/images/items/')

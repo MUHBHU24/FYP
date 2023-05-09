@@ -11,5 +11,6 @@ urlpatterns = [
     path('surveys/', api.getAllSurveys, name='getAllSurveys'), # Get the most recent surveys
     path('api/survey-details/<slug:survey_slug>', api.get_survey_details, name='get_survey_details'), # Get survey details for a specific survey
     path('refresh/', TokenRefreshView.as_view(), name='refreshToken'), # Refresh token
+    path('survey/<int:survey_id>/', views.download_survey_results, name='download_survey_results'), # download survey results as csv
     # path('api/survey_comments/<int:survey_id>/', views.get_survey_comments),
 ]

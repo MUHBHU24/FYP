@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
 from .models import Survey, Question, Answer, Comment
 from .serializers import SurveySerializer
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
+import csv
+
 
 
 def index(request) -> render:
@@ -34,3 +36,32 @@ def index(request) -> render:
 #     serializer = CommentSerializer(comments, many=True)
 #     return JsonResponse(serializer.data, safe=False)
 
+
+# to download survey results as csv
+def download_survey_results(request, survey_id):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    responses = Response.objects.filter(survey=survey)
+    response_data = []
+
+    for question in survey.questions.all():
+        row = [question.text]
+        for choice in question.choices.all():
+            row.append(choice.text)
+        row.append('Total')
+        response_data.append(row)
+        for city in User.objects.values_list('city', flat=True).distinct():
+            row = [city]
+            for choice in question.choices.all():
+                count = responses.filter(question=question, selected_choice=choice, city=city).count()
+                row.append(str(count))
+            row.append(str(responses.filter(question=question, city=city).count()))
+            response_data.append(row)
+            
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="{survey.name}_results.csv"'
+    writer = csv.writer(response)
+
+    for row in response_data:
+        writer.writerow(row)
+
+    return response
