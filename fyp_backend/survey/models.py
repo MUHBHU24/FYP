@@ -110,6 +110,14 @@ class Answer(models.Model):  # An answer belongs to a question and is selected b
         return self.answer_choice
 
 
+# store the user's response to a survey (will help will location later)
+class Response(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    selected_answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class Comment(models.Model):  # A comment belongs to a survey and is made by a user
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

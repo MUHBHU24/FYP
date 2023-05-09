@@ -72,9 +72,10 @@ export default {
                 });
         },
 
+        // Function to redirect to the survey detail page when a survey is clicked
         selectSurvey(slug) {
             const router = useRouter();
-            router.push({ name: "surveys", params: { slug: slug } });
+            router.push({ name: "survey-detail", params: { slug: slug } });
         },
     },
 };

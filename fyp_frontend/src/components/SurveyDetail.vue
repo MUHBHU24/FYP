@@ -24,9 +24,7 @@ export default {
     mounted() {
         try {
             // API call to get the survey, question, and answers for slug from the backend and store them in the data variables
-            const response = axios.get(
-                `/api/survey-details/${this.slug}/`
-            );
+            const response = axios.get(`/api/survey-details/${this.slug}/`);
             this.survey = response.data.survey;
             this.question = response.data.question;
             this.answers = response.data.answers;
@@ -50,7 +48,7 @@ export default {
         async fetchSurveyDetails(slug) {
             try {
                 const response = await axios.get(
-                    `/api/survey-details/${slug}/`
+                    `/api/surveys/${slug}/`
                 );
                 this.survey = response.data.survey;
                 this.question = response.data.question;
@@ -66,11 +64,17 @@ export default {
                 alert("Please select an answer");
                 return;
             }
-            // API call to submit the survey response to the backend
-            await axios.post("/api/submit", {
-                answer: this.selectedAnswer,
-            });
-            alert("Survey submitted successfully");
+            // API call to submit the survey response to the backend, or display an error message if the API call fails
+            try {
+                await axios.post("/api/submit", {
+                    question: this.question.id,
+                    answer: this.selectedAnswer,
+                });
+                alert("Survey submitted successfully");
+            } catch (error) {
+                console.log("Error submitting survey: ", error);
+                alert("Error submitting survey");
+            }
         },
     },
 

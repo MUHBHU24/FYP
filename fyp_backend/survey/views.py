@@ -8,7 +8,6 @@ from django.shortcuts import get_object_or_404
 import csv
 
 
-
 def index(request) -> render:
     return render(request, 'index.html')
 
@@ -28,6 +27,7 @@ def index(request) -> render:
 #         ],
 #     }
 #     return render(request, 'view_survey.html', context)
+
 
 # @api_view(['GET'])
 # def get_survey_comments(request, survey_id):

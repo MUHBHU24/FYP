@@ -17,11 +17,9 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = ('survey', 'question_text')
 
 class AnswerSerializer(serializers.ModelSerializer):
-    users_voted = UserSerializer(many=True, read_only=True)
-
     class Meta:
         model = Answer
-        fields = ('question', 'answer_text', 'votes', 'vote_count', 'users_voted')
+        fields = ('question', 'answer_choice')
 
 class CommentSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)

@@ -61,6 +61,7 @@ export default {
                         // Decode the token to get the user ID
                         const decodedToken= jwt_decode(response.data.access);
                         const userId = decodedToken.user_id;
+                        this.userId = userId;
 
                         console.log(userId);
 
@@ -70,7 +71,7 @@ export default {
                         // );
                         await axios
                             .get(
-                                `/api/myAccount/${userId}/`
+                                `/api/myAccount/${this.userId}/`
                             )
                             .then((response) => {
                                 // Handle successful profile retrieval

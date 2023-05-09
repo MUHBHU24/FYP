@@ -18,7 +18,10 @@ export default {
             // Update user profile using API call
             try {
                 // Replace the following line with API call to update the user profile
-                await axios.put(`/api/myAccount/${this.$route.params.id}/`, this.user);
+                await axios.put(
+                    `/api/myAccount/${this.$route.params.id}/`,
+                    this.user
+                );
                 console.log("User profile updated successfully");
             } catch (error) {
                 console.error(
@@ -32,7 +35,9 @@ export default {
         // Fetch user profile using API call
         try {
             // Replace the following line with API call to fetch the user profile
-            const response = await axios.get(`/api/myAccount/${this.$route.params.id}/`);
+            const response = await axios.get(
+                `/api/myAccount/${this.$route.params.id}/`
+            );
             this.user = response.data;
             console.log("User profile fetched successfully");
         } catch (error) {
@@ -51,12 +56,7 @@ export default {
         <form @submit.prevent="updateUserProfile">
             <div class="mb-3">
                 <label for="avatar" class="form-label">Avatar</label>
-                <input
-                    type="file"
-                    class="form-control"
-                    id="avatar"
-
-                />
+                <input type="file" class="form-control" id="avatar" />
             </div>
             <div class="mb-3">
                 <label for="first_name" class="form-label">First Name</label>
@@ -66,6 +66,7 @@ export default {
                     id="first_name"
                     v-model="user.first_name"
                 />
+                {{ user.first_name }}
             </div>
             <div class="mb-3">
                 <label for="location" class="form-label">Location</label>

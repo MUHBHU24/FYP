@@ -83,6 +83,7 @@ def search_surveys(request) -> JsonResponse:
 def get_survey_details(request, survey_slug) -> JsonResponse:
     try:
         survey = Survey.objects.get(slug=survey_slug)
+        
     except Survey.DoesNotExist:
         return JsonResponse({'error': 'Survey not found'}, status=404)
 
@@ -98,3 +99,29 @@ def get_survey_details(request, survey_slug) -> JsonResponse:
         'question': question_serializer.data,
         'answers': answers_serializer.data
     }, status=200)
+
+
+@api_view(['POST'])
+def submit_survey(request) -> JsonResponse:
+    data = request.data
+
+    try:
+        # Assuming the user is authenticated
+        user = request.user
+        selected_answer = data.get('selected_answer')
+        question_id = data.get('question_id')
+
+        # Get the answer and question objects from the database using the ids
+        answer = Answer.objects.get(id=selected_answer)
+        question = Question.objects.get(id=question_id)
+
+        # Create a new response object and save it to the database
+        response = Response.objects.create(user=user, question=question, selected_answer=answer)
+        response.save()
+
+        return JsonResponse({'msg': 'Survey submitted successfully'}, status=200)
+    
+    except Exception as e:
+        print("Exception when submitting survey: ", e)
+
+        return JsonResponse({'msg': 'Error when submitting survey'}, status=400)
