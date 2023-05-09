@@ -50,7 +50,7 @@ export default {
                         // this.AuthUserStore.createToken(response.data);
                         this.AuthUserStore.createToken({
                             accessToken: response.data.access,
-                            refreshToken: response.data.refreshToken,
+                            refreshToken: response.data.refresh,
                         });
 
                         console.log(response.data.access);
