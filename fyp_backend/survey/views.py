@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
-from .models import Survey, Question, Answer, Comment, User
+from .models import Survey, Question, Answer, Comment, User, userResponse
 from .serializers import SurveySerializer
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404

@@ -74,7 +74,7 @@ export default {
 
         // Function to redirect to the survey detail page when a survey is clicked
         selectSurvey(slug) {
-            this.$router.push({ name: "survey-detail", params: { slug: slug } });
+            this.$router.push({ name: "survey", params: { slug: slug } });
         },
     },
 };

@@ -1,10 +1,10 @@
 from django.http import JsonResponse
 from .forms import registerForm
 from rest_framework.decorators import authentication_classes, permission_classes, api_view
-from rest_framework.response import Response as RestResponse
+from rest_framework.response import Response
 from django.db.models import Q
-from .models import Survey, Question, Answer, Comment, Response
-from .serializers import SurveySerializer, CommentSerializer, AnswerSerializer, QuestionSerializer, UserSerializer, ResponseSerializer
+from .models import Survey, Question, Answer, Comment, userResponse
+from .serializers import SurveySerializer, CommentSerializer, AnswerSerializer, QuestionSerializer, UserSerializer, userResponseSerializer
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -102,10 +102,11 @@ def get_survey_details(request, survey_slug) -> JsonResponse:
     }, status=200)
 
 
+# submit survey response (user response)
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def submit_survey(request):
-    serializer = ResponseSerializer(data=request.data)
+    serializer = userResponseSerializer(data=request.data)
     if serializer.is_valid():
         # If the serializer is valid, we can safely access the validated data
         selected_answer_id = serializer.validated_data['selected_answer']
@@ -120,13 +121,13 @@ def submit_survey(request):
             )
             response.save()
 
-            return RestResponse({'msg': 'Survey submitted successfully'}, status=200)
+            return Response({'msg': 'Survey submitted successfully'}, status=200)
         except Answer.DoesNotExist:
-            return RestResponse({'msg': 'Answer does not exist'}, status=400)
+            return Response({'msg': 'Answer does not exist'}, status=400)
         except Question.DoesNotExist:
-            return RestResponse({'msg': 'Question does not exist'}, status=400)
+            return Response({'msg': 'Question does not exist'}, status=400)
         except Exception as e:
             print("Exception when submitting survey: ", e)
-            return RestResponse({'msg': 'Error when submitting survey'}, status=500)
+            return Response({'msg': 'Error when submitting survey'}, status=500)
     else:
-        return RestResponse(serializer.errors, status=400)
+        return Response(serializer.errors, status=400)

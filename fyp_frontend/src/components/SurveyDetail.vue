@@ -42,7 +42,7 @@ export default {
         async fetchSurveyDetails(slug) {
             try {
                 const response = await axios.get(
-                    `/api/survey-details/${slug}/`
+                    `/api/survey/${slug}/`
                 );
                 this.survey = response.data;
                 this.question = this.survey.question;
@@ -108,7 +108,7 @@ export default {
                                     <input
                                         type="radio"
                                         :id="'answer' + index"
-                                        :value="answer.selected_answer"
+                                        :value="answer.answer.id"
                                         v-model="selectedAnswer"
                                         name="answer"
                                         class="form-check-input"
@@ -117,7 +117,7 @@ export default {
                                         :for="'answer' + index"
                                         class="form-check-label"
                                     >
-                                        {{ answer.selected_answer }}
+                                        {{ answer.answer_text }}
                                     </label>
                                 </div>
                                 <button type="submit" class="btn btn-primary">

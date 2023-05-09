@@ -113,7 +113,7 @@ class Answer(models.Model):  # An answer belongs to a question and is selected b
 
 
 # store the user's response to a survey (will help will location later)
-class Response(models.Model):
+class userResponse(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     selected_answer = models.ForeignKey(Answer, on_delete=models.CASCADE)

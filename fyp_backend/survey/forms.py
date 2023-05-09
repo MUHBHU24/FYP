@@ -1,4 +1,4 @@
-from .models import User, Response
+from .models import User, userResponse
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
@@ -9,7 +9,7 @@ class registerForm(UserCreationForm):
         fields = ('first_name', 'city', 'username', 'password1', 'password2')
 
 
-class responseForm(forms.ModelForm):
+class userResponseForm(forms.ModelForm):
     class Meta:
-        model = Response
+        model = userResponse
         fields = ['selected_answer']

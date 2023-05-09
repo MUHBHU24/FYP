@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Survey, Question, Answer, Comment, Response
+from .models import User, Survey, Question, Answer, Comment, userResponse
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -22,10 +22,10 @@ class AnswerSerializer(serializers.ModelSerializer):
         model = Answer
         fields = ('question', 'answer_choice')
 
-class ResponseSerializer(serializers.ModelSerializer):
+class userResponseSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Response
-        fields = ['selected_answer', 'question']
+        model = userResponse
+        fields = ('selected_answer', 'question')
 
 class CommentSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
