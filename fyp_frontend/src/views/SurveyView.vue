@@ -83,14 +83,14 @@ export default {
                     @click="selectSurvey(survey.slug)"
                 >
                     <img
-                        :src="survey.image"
+                        :src="survey.item_image"
                         class="card-img-top"
                         alt="Survey Image"
                     />
                     <div class="card-body">
                         <h4 class="card-title">{{ survey.title }}</h4>
                         <p class="card-text">
-                            {{ survey.description }}
+                            This is a survey for the item: {{ survey.title }}
                         </p>
                     </div>
                     <div class="card-footer">
