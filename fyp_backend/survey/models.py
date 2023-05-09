@@ -98,12 +98,13 @@ class Question(models.Model):  # A question belongs to a survey and has multiple
 
 class Answer(models.Model):  # An answer belongs to a question and is selected by a user
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    answer_choice = models.CharField(max_length=15, blank=False, null=False)
-    # Users who selected this answer (for location later)
-    users_voted = models.ManyToManyField(
-        User, related_name="users_voted", blank=True)
+    answer_choice = models.CharField(max_length=30, blank=False, null=False)
+
+    # # Users who selected this answer (for location later)
+    # users_voted = models.ManyToManyField(
+    #     User, related_name="users_voted", blank=True)
     # Number of users who selected this answer
-    vote_count = models.IntegerField(default=0)
+    # vote_count = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return self.answer_choice

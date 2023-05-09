@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
-from .models import Survey, Question, Answer, Comment
+from .models import Survey, Question, Answer, Comment, User
 from .serializers import SurveySerializer
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -38,7 +38,7 @@ def index(request) -> render:
 
 
 # to download survey results as csv
-def download_survey_results(request, survey_id):
+def download_survey_results(request, survey_id) -> Response:
     survey = get_object_or_404(Survey, pk=survey_id)
     responses = Response.objects.filter(survey=survey)
     response_data = []
@@ -56,7 +56,7 @@ def download_survey_results(request, survey_id):
                 row.append(str(count))
             row.append(str(responses.filter(question=question, city=city).count()))
             response_data.append(row)
-            
+
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = f'attachment; filename="{survey.name}_results.csv"'
     writer = csv.writer(response)
