@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User, AbstractUser
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
+from autoslug import AutoSlugField
 
 
 class User(AbstractUser):  # Extends the default Django User model with additional fields and methods
@@ -47,7 +48,7 @@ class Survey(models.Model):  # A survey contains one question and multiple answe
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     # Used for URL routing (e.g. /survey/<slug>)
-    slug = models.SlugField(max_length=20, unique=True)
+    slug = AutoSlugField(populate_from='title', unique=True)
 
     class Meta:
         ordering = ['-created_at']  # Order surveys by most recent
@@ -69,17 +70,18 @@ class Survey(models.Model):  # A survey contains one question and multiple answe
             self.slug = self._generate_unique_slug(slug_candidate)
         super(Survey, self).save(*args, **kwargs)
 
+    # method below is not used anymore because we are using AutoSlugField instead
     # Generate a unique slug for the survey (e.g. "my-survey" -> "my-survey-abc1") if it already exists in the database
-    def _generate_unique_slug(self, slug_candidate):
-        MAX_RETRIES = 10 # Maximum number of times to try generating a unique slug
-        for i in range(MAX_RETRIES):
-            if not Survey.objects.filter(slug=slug_candidate).exists():
-                return slug_candidate
+    # def _generate_unique_slug(self, slug_candidate):
+    #     MAX_RETRIES = 10 # Maximum number of times to try generating a unique slug
+    #     for i in range(MAX_RETRIES):
+    #         if not Survey.objects.filter(slug=slug_candidate).exists():
+    #             return slug_candidate
 
-            # If slug_candidate already exists, append a random 4-character string and try again
-            slug_candidate = f"{slug_candidate}-{get_random_string(4)}"
+    #         # If slug_candidate already exists, append a random 4-character string and try again
+    #         slug_candidate = f"{slug_candidate}-{get_random_string(4)}"
 
-        raise ValueError("Could not generate a unique slug for the survey") # else raise an error if we've tried too many times
+    #     raise ValueError("Could not generate a unique slug for the survey") # else raise an error if we've tried too many times
 
     def __str__(self) -> str:
         return self.title

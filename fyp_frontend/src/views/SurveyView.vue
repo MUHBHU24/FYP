@@ -109,9 +109,11 @@ export default {
             </div>
         </div>
         <div
-            class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 gy-4"
+            class="card-group"
         >
+        <div class="card">
             <div
+                class="card-body"
                 v-for="survey in getAllSurveys"
                 :key="survey.id"
                 @click="selectSurvey(survey.slug)"
@@ -124,8 +126,12 @@ export default {
                     :title="survey.title"
                     :createdBy="survey.created_by?.username ?? 'Anonymous'"
                     :slug="survey.slug"
-                />
+                    class = "card-img-top"
+                >
+            
+            </SurveyDetail>
             </template>
+        </div>
             </div>
         </div>
     </div>
