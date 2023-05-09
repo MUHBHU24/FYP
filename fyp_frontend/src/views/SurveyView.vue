@@ -1,6 +1,7 @@
 <script>
 import axios from "axios";
 import { useRouter } from "vue-router";
+import defaultItem from "@/assets/fyp_blankItem.png";
 
 export default {
     name: "SurveyView",
@@ -9,6 +10,7 @@ export default {
         return {
             getAllSurveys: [],
             searchText: "",
+            defaultItem,
         };
     },
 
@@ -21,13 +23,13 @@ export default {
             if (survey.item_image) {
                 return survey.item_image;
             } else {
-                return "../assets/fyp_blankItem.png";
+                return this.defaultItem
             }
         },
 
-        handleImageError(event) {
-            event.target.src = "../assets/fyp_blankItem.png";
-        },
+        // handleImageError(event) {
+        //     event.target.src = "../assets/fyp_blankItem.png";
+        // },
 
         executeSearch() {
             // API call to get the filtered surveys from the backend and store them in the data variable
@@ -107,7 +109,7 @@ export default {
                         <button class="btn btn-primary">Take Survey</button>
                     </div>
                     <div class="card-footer">
-                        Posted by {{ survey.author?.username ?? "Anonymous" }}
+                        Posted by {{ survey.created_by?.username ?? "Anonymous" }}
                     </div>
                 </div>
             </div>
