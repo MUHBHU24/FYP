@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, AbstractUser
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
 from autoslug import AutoSlugField
+from PIL import Image
 
 
 class User(AbstractUser):  # Extends the default Django User model with additional fields and methods
@@ -55,23 +56,23 @@ class Survey(models.Model):  # A survey contains one question and multiple answe
 
     # urlSlug is a property that returns the URL of the survey
     def urlSlug(self) -> str: 
-        return f'/survey/{self.slug}'
+        return f'/{self.slug}/'
 
     # Image URL for the survey item
     def getImage(self) -> str:
         if self.item_image:
-            return self.item_image.url
+            return 'http://localhost:8000' + self.item_image.url
         else:
             return ""
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         if not self.slug:
             slug_candidate = slugify(self.title)
             self.slug = self._generate_unique_slug(slug_candidate)
         super(Survey, self).save(*args, **kwargs)
 
     # Generate a unique slug for the survey (e.g. "my-survey" -> "my-survey-abc1") if it already exists in the database
-    def _generate_unique_slug(self, slug_candidate):
+    def _generate_unique_slug(self, slug_candidate) -> str:
         MAX_RETRIES = 10 # Maximum number of times to try generating a unique slug
         for i in range(MAX_RETRIES):
             if not Survey.objects.filter(slug=slug_candidate).exists():
@@ -91,6 +92,7 @@ class Question(models.Model):  # A question belongs to a survey and has multiple
         Survey, on_delete=models.CASCADE, primary_key=True)
     question_text = models.CharField(
         max_length=50, blank=False, null=False, unique=True, help_text="Enter the question text")
+    description = models.TextField(max_length=100, blank=True, null=True)
 
     def __str__(self) -> str:
         return self.question_text

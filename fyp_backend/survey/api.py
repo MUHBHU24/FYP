@@ -1,10 +1,11 @@
 from django.http import JsonResponse
 from .forms import registerForm
 from rest_framework.decorators import authentication_classes, permission_classes, api_view
-from rest_framework.response import Response
+from rest_framework.response import Response as RestResponse
 from django.db.models import Q
-from .models import Survey, Question, Answer, Comment
-from .serializers import SurveySerializer, CommentSerializer, AnswerSerializer, QuestionSerializer, UserSerializer
+from .models import Survey, Question, Answer, Comment, Response
+from .serializers import SurveySerializer, CommentSerializer, AnswerSerializer, QuestionSerializer, UserSerializer, ResponseSerializer
+from rest_framework.permissions import IsAuthenticated
 
 
 # Get user profile
@@ -83,7 +84,7 @@ def search_surveys(request) -> JsonResponse:
 def get_survey_details(request, survey_slug) -> JsonResponse:
     try:
         survey = Survey.objects.get(slug=survey_slug)
-        
+
     except Survey.DoesNotExist:
         return JsonResponse({'error': 'Survey not found'}, status=404)
 
@@ -102,26 +103,30 @@ def get_survey_details(request, survey_slug) -> JsonResponse:
 
 
 @api_view(['POST'])
-def submit_survey(request) -> JsonResponse:
-    data = request.data
+@permission_classes([IsAuthenticated])
+def submit_survey(request):
+    serializer = ResponseSerializer(data=request.data)
+    if serializer.is_valid():
+        # If the serializer is valid, we can safely access the validated data
+        selected_answer_id = serializer.validated_data['selected_answer']
+        question_id = serializer.validated_data['question']
+        try:
+            selected_answer = Answer.objects.get(id=selected_answer_id)
+            question = Question.objects.get(id=question_id)
+            response = Response.objects.create(
+                user=request.user, 
+                question=question, 
+                selected_answer=selected_answer
+            )
+            response.save()
 
-    try:
-        # Assuming the user is authenticated
-        user = request.user
-        selected_answer = data.get('selected_answer')
-        question_id = data.get('question_id')
-
-        # Get the answer and question objects from the database using the ids
-        answer = Answer.objects.get(id=selected_answer)
-        question = Question.objects.get(id=question_id)
-
-        # Create a new response object and save it to the database
-        response = Response.objects.create(user=user, question=question, selected_answer=answer)
-        response.save()
-
-        return JsonResponse({'msg': 'Survey submitted successfully'}, status=200)
-    
-    except Exception as e:
-        print("Exception when submitting survey: ", e)
-
-        return JsonResponse({'msg': 'Error when submitting survey'}, status=400)
+            return RestResponse({'msg': 'Survey submitted successfully'}, status=200)
+        except Answer.DoesNotExist:
+            return RestResponse({'msg': 'Answer does not exist'}, status=400)
+        except Question.DoesNotExist:
+            return RestResponse({'msg': 'Question does not exist'}, status=400)
+        except Exception as e:
+            print("Exception when submitting survey: ", e)
+            return RestResponse({'msg': 'Error when submitting survey'}, status=500)
+    else:
+        return RestResponse(serializer.errors, status=400)

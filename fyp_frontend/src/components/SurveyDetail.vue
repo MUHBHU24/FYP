@@ -1,16 +1,10 @@
 <script>
 import axios from "axios";
-import SurveyComments from "./SurveyComments.vue";
+import { useRoute } from "vue-router";
+import defaultItem from "@/assets/fyp_blankItem.png";
 
 export default {
     name: "SurveyDetail",
-
-    props: {
-        slug: {
-            type: String,
-            required: true,
-        },
-    },
 
     data() {
         return {
@@ -18,23 +12,23 @@ export default {
             question: {},
             answers: [],
             selectedAnswer: null,
+            defaultItem,
         };
     },
 
-    mounted() {
+    async mounted() {
         try {
-            // API call to get the survey, question, and answers for slug from the backend and store them in the data variables
-            const response = axios.get(`/api/survey-details/${this.slug}/`);
-            this.survey = response.data.survey;
-            this.question = response.data.question;
-            this.answers = response.data.answers;
+            // fetch the survey details from the backend
+            const route = useRoute();
+            const slug = route.params.slug;
+            this.fetchSurveyDetails(slug);
         } catch (error) {
             console.log("Error fetching survey details: ", error);
         }
     },
 
     watch: {
-        slug: {
+        "$route.params.slug": {
             handler(newSlug) {
                 if (newSlug) {
                     this.fetchSurveyDetails(newSlug);
@@ -48,25 +42,32 @@ export default {
         async fetchSurveyDetails(slug) {
             try {
                 const response = await axios.get(
-                    `/api/surveys/${slug}/`
+                    `/api/survey-details/${slug}/`
                 );
-                this.survey = response.data.survey;
-                this.question = response.data.question;
-                this.answers = response.data.answers;
+                this.survey = response.data;
+                this.question = this.survey.question;
+                this.answers = this.survey.answers;
+                this.selectedAnswer = this.survey.answers[0].id;
             } catch (error) {
                 console.log("Error fetching survey details: ", error);
             }
         },
 
+        getImage(survey) {
+            if (survey.item_image) {
+                return "http://localhost:8000/" + survey.item_image;
+            } else {
+                return this.defaultItem;
+            }
+        },
+
         async submitSurvey() {
-            // Check if the user has selected an answer before submitting the survey response to the backend
             if (!this.selectedAnswer) {
                 alert("Please select an answer");
                 return;
             }
-            // API call to submit the survey response to the backend, or display an error message if the API call fails
             try {
-                await axios.post("/api/submit", {
+                await axios.post("/api/submit-survey", {
                     question: this.question.id,
                     answer: this.selectedAnswer,
                 });
@@ -77,8 +78,6 @@ export default {
             }
         },
     },
-
-    // components: { SurveyComments },
 };
 </script>
 

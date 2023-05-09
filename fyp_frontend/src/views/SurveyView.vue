@@ -21,7 +21,7 @@ export default {
     methods: {
         getImage(survey) {
             if (survey.item_image) {
-                return "http://localhost:8000/media/" + survey.item_image;
+                return "http://localhost:8000/" + survey.item_image;
             } else {
                 return this.defaultItem;
             }
@@ -74,8 +74,7 @@ export default {
 
         // Function to redirect to the survey detail page when a survey is clicked
         selectSurvey(slug) {
-            const router = useRouter();
-            router.push({ name: "survey-detail", params: { slug: slug } });
+            this.$router.push({ name: "survey-detail", params: { slug: slug } });
         },
     },
 };
