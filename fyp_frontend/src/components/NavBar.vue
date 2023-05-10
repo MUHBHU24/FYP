@@ -7,6 +7,7 @@ export default {
     setup() {
         const AuthUserStore = useAuthUserStore(); // Initialize the AuthUserStore to handle the user's authentication status and profile
         console.log(AuthUserStore);
+        console.log(AuthUserStore.AuthUser.id)
         const router = useRouter(); // Initialize the router to handle navigation
 
         const logout = () => {

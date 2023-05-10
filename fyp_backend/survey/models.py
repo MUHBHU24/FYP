@@ -4,7 +4,6 @@ from django.contrib.auth.models import User, AbstractUser
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
 from autoslug import AutoSlugField
-from PIL import Image
 
 
 class User(AbstractUser):  # Extends the default Django User model with additional fields and methods

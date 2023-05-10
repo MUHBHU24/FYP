@@ -52,6 +52,7 @@ export const useAuthUserStore = defineStore({
             localStorage.setItem("AuthUser.id", this.AuthUser.id);
             localStorage.setItem("AuthUser.username", this.AuthUser.username);
 
+            // Log a message indicating the user was successfully created
             console.log("Successfully created: ", this.AuthUser);
         },
 
