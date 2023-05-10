@@ -44,11 +44,15 @@ export default {
             }
 
             try {
-                const response = await axios.post("/api/messages/new/", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                });
+                const response = await axios.post(
+                    "/api/messages/new/",
+                    formData,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    }
+                );
                 console.log("data");
                 console.log(response.data);
                 this.messages.push(response.data);
@@ -145,7 +149,6 @@ export default {
                                         accept="image/*"
                                         v-on:change="onFileSelected"
                                     />
-                                    
                                 </div>
                                 <div class="d-flex justify-content-end">
                                     <button
@@ -161,51 +164,67 @@ export default {
                 </div>
             </div>
             <div class="col-md-8">
-    <div
-        v-for="message in messages"
-        :key="message.id"
-        class="card shadow-sm mb-4"
-    >
-        <div class="card-body">
-            <div class="row">
-                <!-- Message details -->
-                <div class="col-md-10">
-                    <!-- Display the image if it exists -->
-                    <div v-if="message.messagePic && message.messagePic.length > 0" class="mb-3">
-                        <img :src="message.messagePic[0].pic" alt="Message Image" class="img-fluid rounded" />
+                <div
+                    v-for="message in messages"
+                    :key="message.id"
+                    class="card shadow-sm mb-4"
+                >
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Message details -->
+                            <div class="col-md-10">
+                                <!-- Display the image if it exists -->
+                                <div
+                                    v-if="
+                                        message.messagePic &&
+                                        message.messagePic.length > 0
+                                    "
+                                    class="mb-3"
+                                >
+                                    <img
+                                        :src="message.messagePic[0].pic"
+                                        alt="Message Image"
+                                        class="img-fluid rounded"
+                                    />
+                                </div>
+                                <h5 class="mb-2">{{ message.main }}</h5>
+                                <p class="mb-1 text-muted">
+                                    Posted by
+                                    {{
+                                        message.author
+                                            ? message.author.username
+                                            : ""
+                                    }}
+                                    from
+                                    <strong>{{ message.author.city }}</strong>
+                                    on
+                                    {{ formatDate(message.timePosted) }}
+                                </p>
+                                <RouterLink
+                                    :to="{
+                                        name: 'reply',
+                                        params: { id: message.id },
+                                    }"
+                                    class="btn btn-link p-0"
+                                    >Check Replies</RouterLink
+                                >
+                            </div>
+                            <!-- Upvote button -->
+                            <div
+                                class="col-md-2 d-flex align-items-start justify-content-end"
+                            >
+                                <button
+                                    class="btn btn-primary"
+                                    @click="upvoteMsg(message.id)"
+                                >
+                                    <i class="bi bi-hand-thumbs-up-fill"></i>
+                                    {{ message.upvoteCount }} Upvotes
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <h5 class="mb-2">{{ message.main }}</h5>
-                    <p class="mb-1 text-muted">
-                        Posted by
-                        {{
-                            message.author
-                                ? message.author.username
-                                : ""
-                        }}
-                        from
-                        <strong>{{
-                            message.author.city
-                        }}</strong>
-                        on
-                        {{ formatDate(message.timePosted) }}
-                    </p>
-                    <RouterLink :to="{name: 'reply', params: {id: message.id}}" class="btn btn-link p-0">Check Replies</RouterLink>
-                </div>
-                <!-- Upvote button -->
-                <div class="col-md-2 d-flex align-items-start justify-content-end">
-                    <button
-                        class="btn btn-primary"
-                        @click="upvoteMsg(message.id)"
-                    >
-                        <i class="bi bi-hand-thumbs-up-fill"></i>
-                        {{ message.upvoteCount }} Upvotes
-                    </button>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
         </div>
     </div>
 </template>

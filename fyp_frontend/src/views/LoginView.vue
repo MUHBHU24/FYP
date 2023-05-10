@@ -59,7 +59,7 @@ export default {
                             "Bearer " + response.data.access;
 
                         // Decode the token to get the user ID
-                        const decodedToken= jwt_decode(response.data.access);
+                        const decodedToken = jwt_decode(response.data.access);
                         const userId = decodedToken.user_id;
                         this.userId = userId;
 
@@ -70,17 +70,18 @@ export default {
                             axios.defaults.headers.common["Authorization"]
                         );
                         await axios
-                            .get(
-                                `/api/account/${this.userId}/`
-                            )
+                            .get(`/api/account/${this.userId}/`)
                             .then((response) => {
                                 // Handle successful profile retrieval
                                 this.AuthUserStore.createAuthUser(
                                     response.data
                                 );
 
-                                // Redirect the user to their profile page
-                                this.$router.push({ name: 'account' });
+                                // Try to redirect the user to their account page
+                                this.$router.push({
+                                    name: "account",
+                                    params: { id: this.userId },
+                                });
                             })
                             .catch((error) => {
                                 // Log the error
@@ -88,6 +89,9 @@ export default {
                                     "Error when trying to redirect to their account page ",
                                     error
                                 );
+
+                                // If there is an error (e.g., the account page is not available), redirect the user to the 'surveys' page
+                                this.$router.push({ name: "surveys" });
                             });
                     })
                     .catch((error) => {
