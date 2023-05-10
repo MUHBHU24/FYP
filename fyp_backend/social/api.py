@@ -6,9 +6,19 @@ from rest_framework.decorators import api_view
 
 # Create your views here.
 
+@api_view(['POST'])
+def create_message(request):
+    data = request.data
+
+    print(data)
+
+    return JsonResponse({'message': 'Message was created!'})
+
+
+# This is the view for the message board. It returns all messages in the database.
 @api_view(['GET'])
 def all_messages(request):
     msgs = Message.objects.all()
     serial = MessageSerializer(msgs, many=True)
     
-    return JsonResponse({'data': serial.data})
+    return JsonResponse(serial.data, safe=False)

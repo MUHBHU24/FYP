@@ -14,4 +14,5 @@ class Message(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='msg_author')
     timePosted = models.DateTimeField(auto_now_add=True)
     messagePic = models.ManyToManyField(Picture, blank=True, related_name='messagePic')
-
+    
+    
