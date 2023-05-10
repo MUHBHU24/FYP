@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import AboutView from "../views/AboutView.vue";
 import SurveyView from "../views/SurveyView.vue";
+import ReplyView from "../views/ReplyView.vue";
 import MessagesView from "../views/MessagesView.vue";
 import AccountView from "../views/AccountView.vue";
 import RegisterView from "../views/RegisterView.vue";
@@ -40,6 +41,11 @@ const router = createRouter({
             path: "/messages",
             name: "messages",
             component: MessagesView,
+        },
+        {
+            path: "/reply/:id",
+            name: "reply",
+            component: ReplyView,
         },
         {
             path: "/account/:id",

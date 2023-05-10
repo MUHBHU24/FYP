@@ -5,6 +5,8 @@ export default {
     name: "MessagesView",
 
     components: {},
+
+    // this function is called when the page is loaded
     async mounted() {
         await this.allMessages();
     },
@@ -13,6 +15,7 @@ export default {
         return {
             messages: [],
             main: "",
+            selectedFile: null,
         };
     },
 
@@ -33,13 +36,24 @@ export default {
         async createMsg() {
             console.log("you have created a new message: ", this.main);
 
+            const formData = new FormData();
+            formData.append("main", this.main);
+
+            if (this.selectedFile) {
+                formData.append("pic", this.selectedFile);
+            }
+
             try {
-                const response = await axios.post("/api/messages/new/", {
-                    main: this.main,
+                const response = await axios.post("/api/messages/new/", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
                 });
                 console.log("data");
                 console.log(response.data);
                 this.messages.push(response.data);
+                this.main = "";
+                this.selectedFile = null;
             } catch (error) {
                 this.handleError(error);
             }
@@ -56,6 +70,9 @@ export default {
         handleError(error) {
             console.log("problem occured");
             console.log(error);
+        },
+        onFileSelected(event) {
+            this.selectedFile = event.target.files[0];
         },
 
         // this function is used to upvote a message and update the upvote count on the page
@@ -106,7 +123,8 @@ export default {
                             <form @submit.prevent="createMsg">
                                 <div class="mb-3">
                                     <label for="main" class="form-label"
-                                        >Heard something interesting? Let people know!</label
+                                        >Heard something interesting? Let people
+                                        know!</label
                                     >
                                     <textarea
                                         id="main"
@@ -127,6 +145,7 @@ export default {
                                         accept="image/*"
                                         v-on:change="onFileSelected"
                                     />
+                                    
                                 </div>
                                 <div class="d-flex justify-content-end">
                                     <button
@@ -142,50 +161,56 @@ export default {
                 </div>
             </div>
             <div class="col-md-8">
-                <div
-                    v-for="message in messages"
-                    :key="message.id"
-                    class="card shadow-sm mb-4"
-                >
-                    <div class="card-body">
-                        <div
-                            class="d-flex justify-content-between align-items-start"
-                        >
-                            <div class="d-flex align-items-center">
-                                <!-- <img :src="getImage(message)" alt="User Image" class="rounded-circle me-3" width="50" height="50"> -->
-                                <div>
-                                    <h5 class="mb-0">{{ message.main }}</h5>
-                                    <p class="mb-0">
-                                        <small class="text-muted">
-                                            Posted by
-                                            {{
-                                                message.author
-                                                    ? message.author.username
-                                                    : ""
-                                            }}
-                                            from
-                                            <strong>{{
-                                                message.author.city
-                                            }}</strong>
-                                            on
-                                            {{ formatDate(message.timePosted) }}
-                                        </small>
-                                    </p>
-                                </div>
-                            </div>
-                            <div>
-                                <button
-                                    class="btn btn-sm btn-primary"
-                                    @click="upvoteMsg(message.id)"
-                                >
-                                    <i class="bi bi-hand-thumbs-up-fill"></i>
-                                    {{ message.upvoteCount }} Upvotes
-                                </button>
-                            </div>
-                        </div>
+    <div
+        v-for="message in messages"
+        :key="message.id"
+        class="card shadow-sm mb-4"
+    >
+        <div class="card-body">
+            <div
+                class="d-flex justify-content-between align-items-start"
+            >
+                <div class="d-flex align-items-center">
+                    <!-- Display the image if it exists -->
+                    <div v-if="message.messagePic && message.messagePic.length > 0">
+                        <img :src="message.messagePic[0].pic" alt="Message Image" class="img-fluid" />
+                    </div>
+                    <div>
+                        <h5 class="mb-0">{{ message.main }}</h5>
+                        <p class="mb-0">
+                            <small class="text-muted">
+                                Posted by
+                                {{
+                                    message.author
+                                        ? message.author.username
+                                        : ""
+                                }}
+                                from
+                                <strong>{{
+                                    message.author.city
+                                }}</strong>
+                                on
+                                {{ formatDate(message.timePosted) }}
+                            </small>
+                            <p>Replies</p>
+                        </p>
                     </div>
                 </div>
+                <div>
+                    <button
+                        class="btn btn-sm btn-primary"
+                        @click="upvoteMsg(message.id)"
+                    >
+                        <i class="bi bi-hand-thumbs-up-fill"></i>
+                        {{ message.upvoteCount }} Upvotes
+                    </button>
+                    
+                </div>
             </div>
+        </div>
+    </div>
+</div>
+
         </div>
     </div>
 </template>
