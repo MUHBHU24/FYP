@@ -54,17 +54,34 @@ export default {
             console.log(error);
         },
 
-        upvoteMsg(id) {
-            console.log("you have upvoted a message: ", id);
-
+        async upvoteMsg(id) {
             try {
-                const response = axios
-                    .post(`/api/messages/${id}/upvote/`)
-                    .then((response) => {
-                        console.log(response.data);
-                    });
+                const response = await axios.post(
+                    `/api/messages/${id}/upvote/`
+                );
+                console.log(response.data);
+
+                // to update the upvote count on the page without refreshing
+                if (response.data.UpvoteStatus === "This has been upvoted!") {
+                    const message = this.messages.find(
+                        (message) => message.id === id
+                    );
+                    // increment the upvote count by 1
+                    if (message) {
+                        message.upvoteCount += 1;
+                    }
+                    // if it has already been upvoted, do nothing
+                } else if (
+                    response.data.UpvoteStatus ===
+                    "You have already upvoted this message!"
+                ) {
+                    console.log("You have already upvoted this message!");
+                    // if there is an error, print it out
+                } else if (response.data.error) {
+                    console.error(response.data.error);
+                }
             } catch (error) {
-                this.handleError(error);
+                console.error(error);
             }
         },
     },

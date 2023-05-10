@@ -71,9 +71,9 @@ def upvote(request, primary_key):
             msg.upvoteCount += 1
             msg.save()
 
-            return JsonResponse({'show upvote status': 'This has been upvoted!'})
+            return JsonResponse({'UpvoteStatus': 'This has been upvoted!'})
         else:
-            return JsonResponse({'show upvote status': 'You have already upvoted this message!'})
+            return JsonResponse({'UpvoteStatus': 'You have already upvoted this message!'})
     
     except Message.DoesNotExist:
         return JsonResponse({'error': 'Message not found!'}, status=404)
