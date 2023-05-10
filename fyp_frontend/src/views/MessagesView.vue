@@ -5,8 +5,8 @@ export default {
     name: "MessagesView",
 
     components: {},
-    mounted() {
-        this.allMessages();
+    async mounted() {
+        await this.allMessages();
     },
 
     data() {
@@ -17,43 +17,41 @@ export default {
     },
 
     methods: {
-        allMessages() {
-            axios
-                .get("/api/messages/")
-                .then((response) => {
-                    console.log("data");
-                    console.log(response.data);
-
-                    this.messages = response.data;
-                })
-                .catch((error) => {
-                    console.log("problem occured");
-                    console.log(error);
-                });
+        async allMessages() {
+            try {
+                const response = await axios.get("/api/messages/");
+                console.log("data");
+                console.log(response.data);
+                this.messages = response.data;
+            } catch (error) {
+                this.handleError(error);
+            }
         },
 
-        createMsg() {
+        async createMsg() {
             console.log("you have created a new message: ", this.main);
 
-            axios
-                .post("/api/messages/new/", {
+            try {
+                const response = await axios.post("/api/messages/new/", {
                     main: this.main,
-                })
-                .then((response) => {
-                    console.log("data");
-                    console.log(response.data);
-                    this.messages.push(response.data);
-                })
-                .catch((error) => {
-                    console.log("problem occured");
-                    console.log(error);
                 });
+                console.log("data");
+                console.log(response.data);
+                this.messages.push(response.data);
+            } catch (error) {
+                this.handleError(error);
+            }
         },
 
         formatDate(dateString) {
             const options = { year: "numeric", month: "long", day: "numeric" };
             const date = new Date(dateString);
             return date.toLocaleDateString(undefined, options);
+        },
+
+        handleError(error) {
+            console.log("problem occured");
+            console.log(error);
         },
     },
 };
