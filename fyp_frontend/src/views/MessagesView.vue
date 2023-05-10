@@ -65,8 +65,8 @@ export default {
             <div class="row justify-content-center mb-4">
                 <div class="col-md-8">
                     <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0 fs-2">Create New Message</h5>
+                        <div class="card-header align-items-center text-center">
+                            <h5 class="mb-0 fs-1">Post your thoughts here!</h5>
                         </div>
                         <div class="card-body">
                             <form @submit.prevent="createMsg">
@@ -84,7 +84,7 @@ export default {
                                 </div>
                                 <div class="mb-3">
                                     <label for="messageImage" class="form-label"
-                                        >Insert a picture:</label
+                                        >Need to add a picture?</label
                                     >
                                     <input
                                         id="messageImage"
