@@ -167,44 +167,39 @@ export default {
         class="card shadow-sm mb-4"
     >
         <div class="card-body">
-            <div
-                class="d-flex justify-content-between align-items-start"
-            >
-                <div class="d-flex align-items-center">
+            <div class="row">
+                <!-- Message details -->
+                <div class="col-md-10">
                     <!-- Display the image if it exists -->
-                    <div v-if="message.messagePic && message.messagePic.length > 0">
-                        <img :src="message.messagePic[0].pic" alt="Message Image" class="img-fluid" />
+                    <div v-if="message.messagePic && message.messagePic.length > 0" class="mb-3">
+                        <img :src="message.messagePic[0].pic" alt="Message Image" class="img-fluid rounded" />
                     </div>
-                    <div>
-                        <h5 class="mb-0">{{ message.main }}</h5>
-                        <p class="mb-0">
-                            <small class="text-muted">
-                                Posted by
-                                {{
-                                    message.author
-                                        ? message.author.username
-                                        : ""
-                                }}
-                                from
-                                <strong>{{
-                                    message.author.city
-                                }}</strong>
-                                on
-                                {{ formatDate(message.timePosted) }}
-                            </small>
-                            <p>Replies</p>
-                        </p>
-                    </div>
+                    <h5 class="mb-2">{{ message.main }}</h5>
+                    <p class="mb-1 text-muted">
+                        Posted by
+                        {{
+                            message.author
+                                ? message.author.username
+                                : ""
+                        }}
+                        from
+                        <strong>{{
+                            message.author.city
+                        }}</strong>
+                        on
+                        {{ formatDate(message.timePosted) }}
+                    </p>
+                    <RouterLink :to="{name: 'reply', params: {id: message.id}}" class="btn btn-link p-0">Check Replies</RouterLink>
                 </div>
-                <div>
+                <!-- Upvote button -->
+                <div class="col-md-2 d-flex align-items-start justify-content-end">
                     <button
-                        class="btn btn-sm btn-primary"
+                        class="btn btn-primary"
                         @click="upvoteMsg(message.id)"
                     >
                         <i class="bi bi-hand-thumbs-up-fill"></i>
                         {{ message.upvoteCount }} Upvotes
                     </button>
-                    
                 </div>
             </div>
         </div>
