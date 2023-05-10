@@ -53,6 +53,8 @@ export default {
             console.log("problem occured");
             console.log(error);
         },
+
+        
     },
 };
 </script>
@@ -106,45 +108,30 @@ export default {
                 </div>
             </div>
             <div class="col-md-8">
-                <div
-                    class="d-flex justify-content-between align-items-center mb-4"
-                ></div>
-                <div
-                    class="card mb-4 shadow-sm"
-                    v-for="message in messages"
-                    :key="message.id"
-                >
-                    <div class="card-body">
-                        <div
-                            class="d-flex justify-content-between align-items-center"
-                        >
-                            <div>
-                                <!-- <img 
-                                    :src="getImage(message)"
-                                    alt="User Image"
-                                    class="rounded-circle me-2"
-                                    width="50"
-                                    height="50"
-                                > -->
-                                <h5 class="d-inline-block mb-0">
-                                    {{ message.main }}
-                                </h5>
-                            </div>
-                        </div>
-                        <p class="card-footer mt-3 mb-0">
-                            <small
-                                >Posted by user:
-                                <strong>{{
-                                    message.author
-                                        ? message.author.username
-                                        : ""
-                                }}</strong>
-                                on {{ formatDate(message.timePosted) }}</small
-                            >
+    <div v-for="message in messages" :key="message.id" class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+                <div class="d-flex align-items-center">
+                    <!-- <img :src="getImage(message)" alt="User Image" class="rounded-circle me-3" width="50" height="50"> -->
+                    <div>
+                        <h5 class="mb-0">{{ message.main }}</h5>
+                        <p class="mb-0">
+                            <small class="text-muted">
+                                Posted by {{ message.author ? message.author.username : "" }} on {{ formatDate(message.timePosted) }}
+                            </small>
                         </p>
                     </div>
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-primary">
+                        <i class="bi bi-hand-thumbs-up-fill"></i>
+                        {{ message.upvoteCount }} Upvotes
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+</div>
+</div>
+</div>
 </template>

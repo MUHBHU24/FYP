@@ -21,6 +21,7 @@ export default {
     methods: {
         getImage(survey) {
             if (survey.item_image) {
+                console.log("http://localhost:8000/" + survey.item_image)
                 return "http://localhost:8000/" + survey.item_image;
             } else {
                 return this.defaultItem;

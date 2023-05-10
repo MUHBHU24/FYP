@@ -8,4 +8,4 @@ class MessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Message
-        fields = ['id', 'main', 'author', 'timePosted']
+        fields = ('id', 'main', 'author', 'timePosted', 'upvoteCount', 'upvote', 'messagePic' )
