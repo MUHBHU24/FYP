@@ -17,5 +17,11 @@ python manage.py runserver
 username: muhbhu
 password: muhbhu
 
+# Website login credentials or create your own
+username: mo1
+password: mo123456
+username: bob1
+password: bob123456
+
 # OR Create a superuser to access the admin page using the following command and follow the prompts
 python manage.py createsuperuser
