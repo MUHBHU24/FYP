@@ -65,10 +65,10 @@ export default {
 
                         console.log(userId);
 
-                        // console.log(
-                        //     "Authorization header:",
-                        //     axios.defaults.headers.common["Authorization"]
-                        // );
+                        console.log(
+                            "Authorization header:",
+                            axios.defaults.headers.common["Authorization"]
+                        );
                         await axios
                             .get(
                                 `/api/myAccount/${this.userId}/`
