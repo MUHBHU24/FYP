@@ -3,7 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import AboutView from "../views/AboutView.vue";
 import SurveyView from "../views/SurveyView.vue";
 import MessagesView from "../views/MessagesView.vue";
-import ProfileView from "../views/ProfileView.vue";
+import AccountView from "../views/AccountView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import LoginView from "../views/LoginView.vue";
 import SurveyDetail from "../components/SurveyDetail.vue";
@@ -42,9 +42,9 @@ const router = createRouter({
             component: MessagesView,
         },
         {
-            path: "/profile",
-            name: "profile",
-            component: ProfileView,
+            path: "/account/:id",
+            name: "account",
+            component: AccountView,
         },
         {
             path: "/register",

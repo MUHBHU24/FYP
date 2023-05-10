@@ -9,21 +9,21 @@ from rest_framework.permissions import IsAuthenticated
 
 
 # Get user profile
-@api_view(['GET'])
-def myAccount(request) -> JsonResponse:
-    # Get user from request object
-    user = request.user
+# @api_view(['GET'])
+# def Account(request) -> JsonResponse:
+#     # Get user from request object
+#     user = request.user
 
-    # Return user profile data as JSON
-    return JsonResponse({
-        'id': user.id,
-        'username': user.username,
-        'first_name': user.first_name,
-        # 'city': user.city,
-        # 'age': user.age,
-        # 'bio': user.bio,
-        # 'avatar': user.avatar.url if user.avatar else '',
-    })
+#     # Return user profile data as JSON
+#     return JsonResponse({
+#         'id': user.id,
+#         'username': user.username,
+#         'first_name': user.first_name,
+#         # 'city': user.city,
+#         # 'age': user.age,
+#         # 'bio': user.bio,
+#         # 'avatar': user.avatar.url if user.avatar else '',
+#     })
 
 
 # Register user

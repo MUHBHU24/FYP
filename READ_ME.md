@@ -12,3 +12,10 @@ npm run dev
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
+
+# Django admin page can be accessed at http://localhost:8000/admin after running backend
+username: muhbhu
+password: muhbhu
+
+# OR Create a superuser to access the admin page using the following command and follow the prompts
+python manage.py createsuperuser

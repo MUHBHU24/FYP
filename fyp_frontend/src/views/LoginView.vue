@@ -71,7 +71,7 @@ export default {
                         );
                         await axios
                             .get(
-                                `/api/myAccount/${this.userId}/`
+                                `/api/account/${this.userId}/`
                             )
                             .then((response) => {
                                 // Handle successful profile retrieval
@@ -80,12 +80,12 @@ export default {
                                 );
 
                                 // Redirect the user to their profile page
-                                this.$router.push({ name: 'profile' });
+                                this.$router.push({ name: 'account' });
                             })
                             .catch((error) => {
                                 // Log the error
                                 console.log(
-                                    "Error when trying to redirect to profile page ",
+                                    "Error when trying to redirect to their account page ",
                                     error
                                 );
                             });
