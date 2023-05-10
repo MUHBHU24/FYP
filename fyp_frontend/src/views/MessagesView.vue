@@ -17,6 +17,7 @@ export default {
     },
 
     methods: {
+        // this function retrieves all the messages from the database
         async allMessages() {
             try {
                 const response = await axios.get("/api/messages/");
@@ -28,6 +29,7 @@ export default {
             }
         },
 
+        // this function creates a new message and adds it to the database and the page
         async createMsg() {
             console.log("you have created a new message: ", this.main);
 
@@ -43,17 +45,20 @@ export default {
             }
         },
 
+        // used to format the date into human readable format
         formatDate(dateString) {
             const options = { year: "numeric", month: "long", day: "numeric" };
             const date = new Date(dateString);
             return date.toLocaleDateString(undefined, options);
         },
 
+        // handle/log any errors
         handleError(error) {
             console.log("problem occured");
             console.log(error);
         },
 
+        // this function is used to upvote a message and update the upvote count on the page
         async upvoteMsg(id) {
             try {
                 const response = await axios.post(
@@ -95,13 +100,13 @@ export default {
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-header align-items-center text-center">
-                            <h5 class="mb-0 fs-1">Post your thoughts here!</h5>
+                            <h5 class="mb-0 fs-1">Message board</h5>
                         </div>
                         <div class="card-body">
                             <form @submit.prevent="createMsg">
                                 <div class="mb-3">
                                     <label for="main" class="form-label"
-                                        >Message:</label
+                                        >Heard something interesting? Let people know!</label
                                     >
                                     <textarea
                                         id="main"

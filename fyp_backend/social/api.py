@@ -13,7 +13,7 @@ def create_message(request):
     print(data)
     form = MessageForm(data)
 
-# checks if the form is valid, if it is, it saves the message to the database and returns the message as a JSON object.
+    # checks if the form is valid, if it is, it saves the message to the database and returns the message as a JSON object.
     if form.is_valid():
         send = form.save(commit=False)
         userReq = request.user
@@ -23,7 +23,7 @@ def create_message(request):
 
         return JsonResponse(serial.data, safe=False)
 
-# if the form is not valid, it returns a JSON object with the problem.
+    # if the form is not valid, it returns a JSON object with the problem.
     return JsonResponse({'problem': 'something went wrong...'})
 
 
@@ -69,6 +69,7 @@ def upvote(request, primary_key):
             upvote = Upvote.objects.create(upvoter=request.user)
             msg.upvote.add(upvote)
             msg.upvoteCount += 1
+            print(msg.upvoteCount)
             msg.save()
 
             return JsonResponse({'UpvoteStatus': 'This has been upvoted!'})
