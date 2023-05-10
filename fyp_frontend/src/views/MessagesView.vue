@@ -42,8 +42,7 @@ export default {
                 .then((response) => {
                     console.log("data");
                     console.log(response.data);
-
-                    this.messages = response.data;
+                    this.messages.push(response.data);
                 })
                 .catch((error) => {
                     console.log("problem occured");
