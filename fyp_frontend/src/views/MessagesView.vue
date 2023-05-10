@@ -54,7 +54,19 @@ export default {
             console.log(error);
         },
 
-        
+        upvoteMsg(id) {
+            console.log("you have upvoted a message: ", id);
+
+            try {
+                const response = axios
+                    .post(`/api/messages/${id}/upvote/`)
+                    .then((response) => {
+                        console.log(response.data);
+                    });
+            } catch (error) {
+                this.handleError(error);
+            }
+        },
     },
 };
 </script>
@@ -108,30 +120,50 @@ export default {
                 </div>
             </div>
             <div class="col-md-8">
-    <div v-for="message in messages" :key="message.id" class="card shadow-sm mb-4">
-        <div class="card-body">
-            <div class="d-flex justify-content-between align-items-start">
-                <div class="d-flex align-items-center">
-                    <!-- <img :src="getImage(message)" alt="User Image" class="rounded-circle me-3" width="50" height="50"> -->
-                    <div>
-                        <h5 class="mb-0">{{ message.main }}</h5>
-                        <p class="mb-0">
-                            <small class="text-muted">
-                                Posted by {{ message.author ? message.author.username : "" }} on {{ formatDate(message.timePosted) }}
-                            </small>
-                        </p>
+                <div
+                    v-for="message in messages"
+                    :key="message.id"
+                    class="card shadow-sm mb-4"
+                >
+                    <div class="card-body">
+                        <div
+                            class="d-flex justify-content-between align-items-start"
+                        >
+                            <div class="d-flex align-items-center">
+                                <!-- <img :src="getImage(message)" alt="User Image" class="rounded-circle me-3" width="50" height="50"> -->
+                                <div>
+                                    <h5 class="mb-0">{{ message.main }}</h5>
+                                    <p class="mb-0">
+                                        <small class="text-muted">
+                                            Posted by
+                                            {{
+                                                message.author
+                                                    ? message.author.username
+                                                    : ""
+                                            }}
+                                            from
+                                            <strong>{{
+                                                message.author.city
+                                            }}</strong>
+                                            on
+                                            {{ formatDate(message.timePosted) }}
+                                        </small>
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <button
+                                    class="btn btn-sm btn-primary"
+                                    @click="upvoteMsg(message.id)"
+                                >
+                                    <i class="bi bi-hand-thumbs-up-fill"></i>
+                                    {{ message.upvoteCount }} Upvotes
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <button class="btn btn-sm btn-primary">
-                        <i class="bi bi-hand-thumbs-up-fill"></i>
-                        {{ message.upvoteCount }} Upvotes
-                    </button>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</div>
-</div>
 </template>
