@@ -8,11 +8,11 @@ export const useAuthUserStore = defineStore({
     // Define the initial state of the AuthUser object
     state: () => ({
         AuthUser: {
+            isAuthenticated: false,
             id: null,
             username: null,
             accessToken: null,
             refreshToken: null,
-            isAuthenticated: false,
         },
     }),
 
@@ -20,16 +20,18 @@ export const useAuthUserStore = defineStore({
         // Initialise the user store with values from localStorage
         setupStore() {
             // Check if 'AuthUser.accessToken' exists in localStorage
-            if (localStorage.getItem("AuthUser.accessToken")) { // maybe add this != null && localStorage.getItem("AuthUser.refreshToken") != null
+            if (localStorage.getItem("AuthUser.accessToken")) {
+                // maybe add this != null && localStorage.getItem("AuthUser.refreshToken") != null
                 // Set AuthUser object properties from localStorage
-                this.AuthUser.id = 
-                    localStorage.getItem("AuthUser.id");
+                this.AuthUser.accessToken = localStorage.getItem(
+                    "AuthUser.accessToken"
+                );
+                this.AuthUser.refreshToken = localStorage.getItem(
+                    "AuthUser.refreshToken"
+                );
+                this.AuthUser.id = localStorage.getItem("AuthUser.id");
                 this.AuthUser.username =
                     localStorage.getItem("AuthUser.username");
-                this.AuthUser.accessToken =
-                    localStorage.getItem("AuthUser.accessToken");
-                this.AuthUser.refreshToken =
-                    localStorage.getItem("AuthUser.refreshToken");
                 this.AuthUser.isAuthenticated = true;
 
                 // Call updateToken function to refresh the user's token
@@ -78,14 +80,14 @@ export const useAuthUserStore = defineStore({
         // Update the user's access token by requesting a new token using the refresh token
         updateToken() {
             // Make an axios POST request to refresh the user's access token
-            console.log('Updating token to:' + this.AuthUser.refreshToken)
+            console.log("Updating token to:" + this.AuthUser.refreshToken);
             axios
                 .post("/api/refresh/", {
                     // Pass the user's refresh token in the request body
                     refresh: this.AuthUser.refreshToken,
                 })
                 .then((response) => {
-                    console.log("Token updated: ", response.data); 
+                    console.log("Token updated: ", response.data);
 
                     // Update the AuthUser.accessToken with the new access token from the response
                     this.AuthUser.accessToken = response.data.accessToken;

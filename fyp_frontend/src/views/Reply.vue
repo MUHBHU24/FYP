@@ -10,28 +10,30 @@ export default {
 
     data() {
         return {
-            message: null,
+            message: {},
             reply: "",
         };
     },
 
     methods: {
-        async retrieveCorrectMessage() {
+        retrieveCorrectMessage() {
             try {
-                const response = await axios.get(
+                const response = axios.get(
                     `/api/messages/${this.$route.params.id}/`
-                );
-                this.message = response.data;
-                console.log("data");
-                console.log(response.data);
+                ).then((response) => {
+                    this.message = response.data;
+                });
+                // this.message = response.data;
+                // console.log("data");
+                // console.log(response.data);
             } catch (error) {
                 this.handleError(error);
             }
         },
 
-        async postReply() {
+        postReply() {
             try {
-                const response = await axios.post(
+                const response =  axios.post(
                     `/api/messages/${this.$route.params.id}/sendReply/`,
                     {
                         reply: this.reply,
@@ -63,7 +65,7 @@ export default {
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <!-- Display the specific message -->
-                <div class="card shadow-sm mb-4" v-if="message">
+                <div class="card shadow-sm mb-4" v-for="message in messages">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-10">

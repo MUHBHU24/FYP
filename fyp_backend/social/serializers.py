@@ -9,8 +9,9 @@ class PictureSerializer(serializers.ModelSerializer):
         fields = ('id', 'pic', 'author',)
 
 
-class ExpandMessageSerializer(serializers.ModelSerializer):
-    author = UserSerializer(read_only=True, many=False)
+class MessageSerializer(serializers.ModelSerializer):
+    author = UserSerializer(read_only=True)
+    city = UserSerializer(read_only=True, many=False)
 
     class Meta:
         model = Message
@@ -19,17 +20,21 @@ class ExpandMessageSerializer(serializers.ModelSerializer):
 
 class ReplySerializer(serializers.ModelSerializer):
     replier = UserSerializer(read_only=True)
-    reply = ExpandMessageSerializer(read_only=True, many=True)
 
     class Meta:
         model = Reply
         fields = ('id', 'replier', 'timeReply', 'text', )
-        
 
-class MessageSerializer(serializers.ModelSerializer):
+
+class ExpandMessageSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True, many=False)
+    replies = ReplySerializer(read_only=True, many=True)
     city = UserSerializer(read_only=True, many=False)
 
     class Meta:
         model = Message
-        fields = ('id', 'main', 'author', 'timePosted', 'upvoteCount', 'upvote', 'messagePic', 'city',)
+        fields = ('id', 'main', 'author', 'timePosted', 'upvoteCount', 'upvote', 'messagePic', 'city', 'replies')
+
+
+        
+

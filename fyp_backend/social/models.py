@@ -13,7 +13,7 @@ class Picture(models.Model):
 class Reply(models.Model):
     replier = models.ForeignKey(User, on_delete=models.CASCADE, related_name='replier')
     timeReply = models.DateTimeField(auto_now_add=True)
-    text = models.TextField(max_length="50", blank=False, null=False)
+    text = models.TextField(max_length="50", blank=True, null=True)
 
 
 class Upvote(models.Model):

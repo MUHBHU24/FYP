@@ -43,7 +43,7 @@ const router = createRouter({
             component: Messages,
         },
         {
-            path: "/reply/:id",
+            path: "/:id",
             name: "reply",
             component: Reply,
         },
