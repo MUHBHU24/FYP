@@ -1,4 +1,4 @@
-# Create a virtual environment and install dependencies
+# Create a virtual environment and install dependencies (I used miniconda)
 conda env create -f environment.yml
 conda activate <env_name>
 
