@@ -14,6 +14,7 @@ export const useToastStore = defineStore({
         displayToast({ duration, title, text, styling }) {
             this.duration = parseInt(duration); // convert the time duration to an integer to avoid errors
             this.title = title;
+            // console.log("Toast title: " + this.title);
             this.text = text; 
             this.styling = styling; 
             this.isVisible = true; // set the toast to be visible
