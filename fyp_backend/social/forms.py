@@ -1,4 +1,4 @@
-from .models import Message
+from .models import Message, Reply
 from django.forms import ModelForm
 
 
@@ -7,3 +7,9 @@ class MessageForm(ModelForm):
     class Meta:
         model = Message
         fields = ('main',)
+
+
+class ReplyForm(ModelForm):
+    class Meta:
+        model = Reply
+        fields = ('text',)

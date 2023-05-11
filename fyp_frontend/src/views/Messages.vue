@@ -174,17 +174,12 @@ export default {
                             <!-- Message details -->
                             <div class="col-md-10">
                                 <!-- Display the image if it exists -->
-                                <div
-                                    v-if="
-                                        message.messagePic &&
-                                        message.messagePic.length > 0
-                                    "
-                                    class="mb-3"
-                                >
+                                <div v-if="message.messagePic" class="mb-3">
                                     <img
-                                        :src="message.messagePic[0].pic"
+                                        :src="message.messagePic"
                                         alt="Message Image"
                                         class="img-fluid rounded"
+                                        style="max-width: 100px; max-height:100px;"
                                     />
                                 </div>
                                 <h5 class="mb-2">{{ message.main }}</h5>

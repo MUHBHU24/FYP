@@ -10,30 +10,29 @@ export default {
 
     data() {
         return {
-            message: {},
+            message: {
+                id: null,
+                replies: [],
+            },
+            main: "",
             reply: "",
+
         };
     },
 
     methods: {
-        retrieveCorrectMessage() {
+        async retrieveCorrectMessage(id) {
             try {
-                const response = axios.get(
-                    `/api/messages/${this.$route.params.id}/`
-                ).then((response) => {
-                    this.message = response.data;
-                });
-                // this.message = response.data;
-                // console.log("data");
-                // console.log(response.data);
+                const response = await axios.get(`/api/messages/${id}/reply/`);
+                this.message = response.data;
             } catch (error) {
                 this.handleError(error);
             }
         },
 
-        postReply() {
+        async postReply() {
             try {
-                const response =  axios.post(
+                const response = await axios.post(
                     `/api/messages/${this.$route.params.id}/sendReply/`,
                     {
                         reply: this.reply,
@@ -53,6 +52,7 @@ export default {
         },
 
         handleError(error) {
+            // this.error = "A problem occurred. Please try again later.";
             console.log("problem occured: ");
             console.log(error);
         },
@@ -60,46 +60,33 @@ export default {
 };
 </script>
 
+
 <template>
     <div class="container mt-2">
         <div class="row justify-content-center">
             <div class="col-md-8">
+
+
                 <!-- Display the specific message -->
-                <div class="card shadow-sm mb-4" v-for="message in messages">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <h5 class="mb-2">{{ message.main }}</h5>
-                                <p class="mb-1 text-muted">
-                                    Posted by
-                                    {{
-                                        message.author
-                                            ? message.author.username
-                                            : ""
-                                    }}
-                                    from
-                                    <strong>{{ message.author.city }}</strong>
-                                    on
-                                    {{ formatDate(message.timePosted) }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
 
                 <!-- Reply form -->
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
                         <form @submit.prevent="postReply">
-                            <div class="mb-3">
-                                <label for="reply" class="form-label"
-                                    >Reply to this message:</label
+                            <div class="mb-3 text-center">
+                                <label
+                                    for="reply"
+                                    class="form-label fs-1 fw-bold"
+                                    >Care to reply?</label
                                 >
                                 <textarea
                                     id="reply"
+                                    placeholder="say something..."
                                     class="form-control"
                                     v-model="reply"
                                     rows="3"
+                                    {{ message.id }}
                                 ></textarea>
                             </div>
                             <button class="btn btn-primary" type="submit">
@@ -111,4 +98,5 @@ export default {
             </div>
         </div>
     </div>
+    
 </template>

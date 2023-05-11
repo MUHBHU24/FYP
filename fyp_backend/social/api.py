@@ -64,7 +64,7 @@ def create_message(request):
 @api_view(['GET'])
 def all_messages(request):
     msgs = Message.objects.all()
-    serial = MessageSerializer(msgs, many=True)
+    serial = MessageSerializer(msgs, many=True, context={'request': request})
     
     return JsonResponse(serial.data, safe=False)
 
@@ -132,5 +132,7 @@ def upvote(request, id):
 @api_view(['GET'])
 def expandMessage(request, id):
     msg = Message.objects.get(id=id)
+    serial = MessageSerializer(msg, many=True, context={'request': request})
+    
+    return JsonResponse(serial.data, safe=False)
 
-    return JsonResponse({'msg': ExpandMessageSerializer(msg).data})

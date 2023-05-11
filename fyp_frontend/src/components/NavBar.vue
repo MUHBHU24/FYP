@@ -160,7 +160,7 @@ export default {
                                 Messages</RouterLink
                             >
                         </li>
-                        <li
+                        <!-- <li
                             class="nav-item"
                             v-if="AuthUserStore.AuthUser.isAuthenticated"
                         >
@@ -184,7 +184,7 @@ export default {
                                 </svg>
                                 Account</RouterLink
                             >
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <ul

@@ -4,9 +4,16 @@ from survey.serializers import UserSerializer
 
 
 class PictureSerializer(serializers.ModelSerializer):
+    pic = serializers.SerializerMethodField()
+
     class Meta:
         model = Picture
         fields = ('id', 'pic', 'author',)
+
+    def get_pic(self, obj):
+        if obj.pic:
+            return self.context['request'].build_absolute_uri(obj.pic.url)
+        return ''
 
 
 class MessageSerializer(serializers.ModelSerializer):
