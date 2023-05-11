@@ -23,6 +23,7 @@ export default {
             // Initialize the entryErrors array for handling form validation errors
             entryErrors: [],
             userId: null,
+            formSubmitted: false,
         };
     },
 
@@ -42,14 +43,14 @@ export default {
             }
 
             // If there are no errors, send a POST request to the API to log the user in and create a token
-            if (!this.entryErrors.length) {
+            if (this.entryErrors.length === 0) {
                 try {
                     const response = await axios.post("/api/login/", this.form);
                     // Handle successful login
                     // this.AuthUserStore.createToken(response.data);
                     this.AuthUserStore.createToken({
-                        accessToken: response.data.access,
-                        refreshToken: response.data.refresh,
+                        access: response.data.access,
+                        refresh: response.data.refresh,
                     });
 
                     console.log(response.data.access);
@@ -76,12 +77,15 @@ export default {
 
                     // Try to redirect the user to their account page
                     this.$router.push({
-                        name: "account",
+                        name: "surveys",
                         params: { id: this.userId },
                     });
                 } catch (error) {
                     // Log the error
                     console.log("We have encountered a problem: ", error);
+                    this.$router.push({
+                        name: "surveys",
+                    });
                     this.entryErrors.push("Invalid login credentials!");
                 }
             }
@@ -149,6 +153,12 @@ export default {
                             :key="index"
                         >
                             {{ err }}
+                        </div>
+                        <div
+                            class="alert alert-success border border-success rounded-3 p-4"
+                            v-if="entryErrors.length === 0 && formSubmitted"
+                        >
+                            Congratulations! You have successfully logged in!
                         </div>
                         <div>
                             <button class="btn btn-primary">Log in</button>
