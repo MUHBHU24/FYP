@@ -27,6 +27,8 @@ export default {
                 console.log("data");
                 console.log(response.data);
                 this.messages = response.data;
+
+                this.messages.forEach(message => console.log(message.messagePic))
             } catch (error) {
                 this.handleError(error);
             }
@@ -174,7 +176,7 @@ export default {
                             <!-- Message details -->
                             <div class="col-md-10">
                                 <!-- Display the image if it exists -->
-                                <div v-if="message.messagePic" class="mb-3">
+                                <div v-if="message.messagePic && message.messagePic.length > 0" class="mb-3">
                                     <img
                                         :src="message.messagePic"
                                         alt="Message Image"

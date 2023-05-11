@@ -6,27 +6,6 @@ from .models import Message, Upvote, Picture
 from rest_framework.decorators import api_view
 from django.core.files.images import get_image_dimensions
 
-# BACKUP api_view for create_message 
-# This is the view for creating a new message. It takes in a POST request with the message data, and creates a new message object.
-# @api_view(['POST'])
-# def create_message(request):
-#     data = request.data
-#     print(data)
-#     form = MessageForm(data)
-
-#     # checks if the form is valid, if it is, it saves the message to the database and returns the message as a JSON object.
-#     if form.is_valid():
-#         send = form.save(commit=False)
-#         userReq = request.user
-#         send.author = userReq
-#         send.save()
-#         serial = MessageSerializer(send)
-
-#         return JsonResponse(serial.data, safe=False)
-
-#     # if the form is not valid, it returns a JSON object with the problem.
-#     return JsonResponse({'problem': 'something went wrong...'})
-
 
 @api_view(['POST'])
 def create_message(request):
@@ -67,26 +46,6 @@ def all_messages(request):
     serial = MessageSerializer(msgs, many=True, context={'request': request})
     
     return JsonResponse(serial.data, safe=False)
-
-
-# rewritten upvote function with the one below this, kept as backup
-# @api_view(['POST'])
-# def upvote(request, primary_key):
-#     msg = Message.objects.get(id=primary_key)
-#     # print(msg.upvote.filter(upvoter=request.user))
-#     # print(msg)
-#     if not msg.upvote.filter(upvoter=request.user):
-#         upvote = Upvote.objects.create(upvoter=request.user)
-
-#         msg= Message.objects.get(id=primary_key)
-#         msg.upvoteCount += 1
-#         print(msg.upvoteCount)
-#         msg.upvote.add(upvote)
-#         msg.save()
-
-#         return JsonResponse({'show upvote status': 'this has been upvoted!'})
-#     else:
-#         return JsonResponse({'show upvote status': 'you have already upvoted this message!'})
 
 
 @api_view(['POST'])
@@ -136,3 +95,44 @@ def expandMessage(request, id):
     
     return JsonResponse(serial.data, safe=False)
 
+
+# rewritten upvote function with the one below this, kept as backup
+# @api_view(['POST'])
+# def upvote(request, primary_key):
+#     msg = Message.objects.get(id=primary_key)
+#     # print(msg.upvote.filter(upvoter=request.user))
+#     # print(msg)
+#     if not msg.upvote.filter(upvoter=request.user):
+#         upvote = Upvote.objects.create(upvoter=request.user)
+
+#         msg= Message.objects.get(id=primary_key)
+#         msg.upvoteCount += 1
+#         print(msg.upvoteCount)
+#         msg.upvote.add(upvote)
+#         msg.save()
+
+#         return JsonResponse({'show upvote status': 'this has been upvoted!'})
+#     else:
+#         return JsonResponse({'show upvote status': 'you have already upvoted this message!'})
+
+
+# BACKUP api_view for create_message 
+# This is the view for creating a new message. It takes in a POST request with the message data, and creates a new message object.
+# @api_view(['POST'])
+# def create_message(request):
+#     data = request.data
+#     print(data)
+#     form = MessageForm(data)
+
+#     # checks if the form is valid, if it is, it saves the message to the database and returns the message as a JSON object.
+#     if form.is_valid():
+#         send = form.save(commit=False)
+#         userReq = request.user
+#         send.author = userReq
+#         send.save()
+#         serial = MessageSerializer(send)
+
+#         return JsonResponse(serial.data, safe=False)
+
+#     # if the form is not valid, it returns a JSON object with the problem.
+#     return JsonResponse({'problem': 'something went wrong...'})

@@ -17,7 +17,7 @@ python manage.py runserver
 username: muhbhu
 password: muhbhu
 
-# Website login credentials or create your own
+# Website login credentials or create your own using the register page
 username: mo1
 password: mo123456
 username: bob1

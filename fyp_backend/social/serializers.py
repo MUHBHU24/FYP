@@ -19,10 +19,11 @@ class PictureSerializer(serializers.ModelSerializer):
 class MessageSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
     city = UserSerializer(read_only=True, many=False)
+    message = serializers.ImageField(required=False, allow_null=True, max_length=None, use_url=True)
 
     class Meta:
         model = Message
-        fields = ('id', 'main', 'author', 'timePosted', 'upvoteCount', 'upvote', 'messagePic', 'city',)
+        fields = ('id', 'main', 'author', 'timePosted', 'upvoteCount', 'upvote', 'messagePic', 'city', 'message', )
 
 
 class ReplySerializer(serializers.ModelSerializer):
