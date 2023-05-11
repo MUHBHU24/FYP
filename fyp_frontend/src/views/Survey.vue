@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import defaultItem from "@/assets/fyp_blankItem.png";
 
 export default {
-    name: "SurveyView",
+    name: "Survey",
 
     data() {
         return {

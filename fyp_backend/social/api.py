@@ -90,9 +90,25 @@ def all_messages(request):
 
 
 @api_view(['POST'])
-def upvote(request, primary_key):
+def sendReply(request, id):
+    msg = Message.objects.get(id=id)
+    data = request.data
+    print(request.data)
+    data['replier'] = request.user.id
+    data['reply'] = msg.id
+    serializer = ReplySerializer(data=data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse(serializer.data, safe=False)
+    else:
+        return JsonResponse({'replyStatus': 'this has been replied!'})
+
+
+@api_view(['POST'])
+def upvote(request, id):
     try:
-        msg = Message.objects.get(id=primary_key)
+        msg = Message.objects.get(id=id)
 
         # Check if the user has already upvoted this message
         has_upvoted = msg.upvote.filter(upvoter=request.user).exists()
@@ -114,7 +130,7 @@ def upvote(request, primary_key):
  
 
 @api_view(['GET'])
-def expandMessage(request, primary_key):
-    msg = Message.objects.get(id=primary_key)
+def expandMessage(request, id):
+    msg = Message.objects.get(id=id)
 
     return JsonResponse({'msg': ExpandMessageSerializer(msg).data})

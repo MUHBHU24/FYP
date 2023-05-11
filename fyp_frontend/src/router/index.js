@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import AboutView from "../views/AboutView.vue";
-import SurveyView from "../views/SurveyView.vue";
-import ReplyView from "../views/ReplyView.vue";
-import MessagesView from "../views/MessagesView.vue";
-import AccountView from "../views/AccountView.vue";
-import RegisterView from "../views/RegisterView.vue";
-import LoginView from "../views/LoginView.vue";
+import Home from "../views/Home.vue";
+import About from "../views/About.vue";
+import Survey from "../views/Survey.vue";
+import Reply from "../views/Reply.vue";
+import Messages from "../views/Messages.vue";
+import Account from "../views/Account.vue";
+import Register from "../views/Register.vue";
+import Login from "../views/Login.vue";
 import SurveyDetail from "../components/SurveyDetail.vue";
 
 const router = createRouter({
@@ -15,7 +15,7 @@ const router = createRouter({
         {
             path: "/",
             name: "home",
-            component: HomeView,
+            component: Home,
         },
         {
             path: '/home',
@@ -24,12 +24,12 @@ const router = createRouter({
         {
             path: "/about",
             name: "about",
-            component: AboutView,
+            component: About,
         },
         {
             path: "/surveys",
             name: "surveys",
-            component: SurveyView,
+            component: Survey,
         },
         {
             path: "/survey/:slug",
@@ -40,27 +40,27 @@ const router = createRouter({
         {
             path: "/messages",
             name: "messages",
-            component: MessagesView,
+            component: Messages,
         },
         {
             path: "/reply/:id",
             name: "reply",
-            component: ReplyView,
+            component: Reply,
         },
         {
             path: "/account/:id",
             name: "account",
-            component: AccountView,
+            component: Account,
         },
         {
             path: "/register",
             name: "register",
-            component: RegisterView,
+            component: Register,
         },
         {
             path: "/login",
             name: "login",
-            component: LoginView,
+            component: Login,
         },
     ],
 });
