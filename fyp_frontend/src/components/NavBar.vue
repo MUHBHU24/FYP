@@ -3,10 +3,11 @@ import { useAuthUserStore } from "../stores/AuthUser";
 import { useRouter } from "vue-router";
 import axios from "axios";
 
+
 export default {
     setup() {
         const AuthUserStore = useAuthUserStore(); // Initialize the AuthUserStore to handle the user's authentication status and profile
-        console.log(AuthUserStore.AuthUser.id);
+        console.log(AuthUserStore.AuthUser.username);
 
         const router = useRouter(); // Initialize the router to handle navigation
 
@@ -14,7 +15,7 @@ export default {
             AuthUserStore.deleteToken(); // Log the user out by deleting their token
 
             axios.defaults.headers.common["Authorization"] = null; // Delete the token from the header
-
+            console.log("logged out", AuthUserStore.AuthUser.username);
             router.push("/login"); // Redirect the user to the login page
         };
 

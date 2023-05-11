@@ -33,71 +33,57 @@ export default {
             this.entryErrors = [];
 
             // Validate form fields, adding error messages if necessary (in this case, if the fields are empty) and pushing them to the entryErrors array
-            if (this.form.username === "") {
+            if (!this.form.username) {
                 this.entryErrors.push("Username required!");
             }
 
-            if (this.form.password === "") {
+            if (!this.form.password) {
                 this.entryErrors.push("Password required!");
             }
 
             // If there are no errors, send a POST request to the API to log the user in and create a token
-            if (this.entryErrors.length === 0) {
-                await axios
-                    .post("/api/login/", this.form)
-                    .then(async (response) => {
-                        // Handle successful login
-                        // this.AuthUserStore.createToken(response.data);
-                        this.AuthUserStore.createToken({
-                            accessToken: response.data.access,
-                            refreshToken: response.data.refresh,
-                        });
-
-                        console.log(response.data.access);
-
-                        axios.defaults.headers.common["Authorization"] =
-                            "Bearer " + response.data.access;
-
-                        // Decode the token to get the user ID
-                        const decodedToken = jwt_decode(response.data.access);
-                        const userId = decodedToken.user_id;
-                        this.userId = userId;
-
-                        console.log(userId);
-
-                        console.log(
-                            "Authorization header:",
-                            axios.defaults.headers.common["Authorization"]
-                        );
-                        await axios
-                            .get(`/api/account/${this.userId}/`)
-                            .then((response) => {
-                                // Handle successful profile retrieval
-                                this.AuthUserStore.createAuthUser(
-                                    response.data
-                                );
-
-                                // Try to redirect the user to their account page
-                                this.$router.push({
-                                    name: "account",
-                                    params: { id: this.userId },
-                                });
-                            })
-                            .catch((error) => {
-                                // Log the error
-                                console.log(
-                                    "Error when trying to redirect to their account page ",
-                                    error
-                                );
-
-                                // If there is an error (e.g., the account page is not available), redirect the user to the 'surveys' page
-                                this.$router.push({ name: "surveys" });
-                            });
-                    })
-                    .catch((error) => {
-                        // Log the error
-                        console.log("We have encountered a problem: ", error);
+            if (!this.entryErrors.length) {
+                try {
+                    const response = await axios.post("/api/login/", this.form);
+                    // Handle successful login
+                    // this.AuthUserStore.createToken(response.data);
+                    this.AuthUserStore.createToken({
+                        accessToken: response.data.access,
+                        refreshToken: response.data.refresh,
                     });
+
+                    console.log(response.data.access);
+
+                    axios.defaults.headers.common["Authorization"] =
+                        "Bearer " + response.data.access;
+
+                    // Decode the token to get the user ID
+                    const decodedToken = jwt_decode(response.data.access);
+                    const userId = decodedToken.user_id;
+                    this.userId = userId;
+
+                    console.log(userId);
+
+                    console.log(
+                        "Authorization header:",
+                        axios.defaults.headers.common["Authorization"]
+                    );
+                    const response2 = await axios.get(
+                        `/api/account/${this.userId}/`
+                    );
+                    // Handle successful profile retrieval
+                    this.AuthUserStore.createAuthUser(response2.data);
+
+                    // Try to redirect the user to their account page
+                    this.$router.push({
+                        name: "account",
+                        params: { id: this.userId },
+                    });
+                } catch (error) {
+                    // Log the error
+                    console.log("We have encountered a problem: ", error);
+                    this.entryErrors.push("Invalid login credentials!");
+                }
             }
         },
     },
