@@ -1,6 +1,6 @@
 <script>
 export default {
-    name: "AboutView",
+    name: "About",
 };
 </script>
 

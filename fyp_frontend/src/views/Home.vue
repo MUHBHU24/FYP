@@ -61,7 +61,7 @@
 
 <script>
 export default {
-    name: "HomeView",
+    name: "Home",
     data() {
         return {
             cards: [

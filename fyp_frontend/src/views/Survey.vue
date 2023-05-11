@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import defaultItem from "@/assets/fyp_blankItem.png";
 
 export default {
-    name: "SurveyView",
+    name: "Survey",
 
     data() {
         return {
@@ -21,6 +21,7 @@ export default {
     methods: {
         getImage(survey) {
             if (survey.item_image) {
+                console.log("http://localhost:8000/" + survey.item_image)
                 return "http://localhost:8000/" + survey.item_image;
             } else {
                 return this.defaultItem;
@@ -74,7 +75,8 @@ export default {
 
         // Function to redirect to the survey detail page when a survey is clicked
         selectSurvey(slug) {
-            this.$router.push({ name: "survey", params: { slug: slug } });
+            console.log("slug", slug);  
+            this.$router.push({ name: "survey", params: { slug: survey. slug } });
         },
     },
 };
@@ -106,11 +108,7 @@ export default {
                 v-for="survey in getAllSurveys"
                 :key="survey.id"
             >
-                <div
-                    class="card mb-3"
-                    style="width: 18rem"
-                    @click="selectSurvey(survey.slug)"
-                >
+                <div class="card mb-3" style="width: 18rem">
                     <img
                         :src="getImage(survey)"
                         class="card-img-top"
@@ -121,7 +119,12 @@ export default {
                         <p class="card-text">
                             This is a survey for the item: {{ survey.title }}
                         </p>
-                        <button class="btn btn-primary">Take Survey</button>
+                        <button
+                            class="btn btn-primary"
+                            @click="selectSurvey(survey.slug)"
+                        >
+                            Take Survey
+                        </button>
                         <button
                             class="btn btn-sm btn-secondary float-end mt-2"
                             @click.stop="exportSurveyResponses(survey.slug)"

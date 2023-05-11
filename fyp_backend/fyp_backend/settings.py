@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt', # JWT Authentication
     'corsheaders', # CORS
     'survey', # survey app
+    'social' # social app 
 ]
 
 MIDDLEWARE = [

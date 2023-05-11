@@ -4,7 +4,6 @@ from django.contrib.auth.models import User, AbstractUser
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
 from autoslug import AutoSlugField
-from PIL import Image
 
 
 class User(AbstractUser):  # Extends the default Django User model with additional fields and methods
@@ -16,7 +15,7 @@ class User(AbstractUser):  # Extends the default Django User model with addition
     def __str__(self) -> str:
         return self.username
 
-    def to_dict(self) -> dict:  # Returns a dictionary representation of the user
+    def to_dict(self) -> dict:  # Returns a dictionary representation of the user, not needed for now
         return {
             'id': self.id,
             'first_name': self.first_name,
@@ -25,13 +24,6 @@ class User(AbstractUser):  # Extends the default Django User model with addition
             'age': self.age,
             'bio': self.bio,
             # Return the URL of the avatar if it exists, otherwise return None
-            'avatar': self.avatar.url if self.avatar else None,
-        }
-
-    def to_dict_simple(self) -> dict:
-        return {
-            'id': self.id,
-            'username': self.username,
             'avatar': self.avatar.url if self.avatar else None,
         }
 

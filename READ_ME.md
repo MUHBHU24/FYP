@@ -1,4 +1,4 @@
-# Create a virtual environment and install dependencies
+# Create a virtual environment and install dependencies (I used miniconda)
 conda env create -f environment.yml
 conda activate <env_name>
 
@@ -12,3 +12,16 @@ npm run dev
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
+
+# Django admin page can be accessed at http://localhost:8000/admin after running backend
+username: muhbhu
+password: muhbhu
+
+# Website login credentials or create your own using the register page
+username: mo1
+password: mo123456
+username: bob1
+password: bob123456
+
+# OR Create a superuser to access the admin page using the following command and follow the prompts
+python manage.py createsuperuser

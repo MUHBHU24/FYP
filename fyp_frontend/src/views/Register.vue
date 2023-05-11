@@ -37,23 +37,23 @@ export default {
             this.formSubmitted = true;
 
             // Validate form fields, adding error messages if necessary
-            if (this.form.first_name === "") {
+            if (!this.form.first_name) {
                 this.entryErrors.push("First Name required!");
             }
 
-            if (this.form.city === "") {
+            if (!this.form.city) {
                 this.entryErrors.push("City required!");
             }
 
-            if (this.form.username === "") {
+            if (!this.form.username) {
                 this.entryErrors.push("Username required!");
             }
 
-            if (this.form.password1 === "") {
+            if (!this.form.password1) {
                 this.entryErrors.push("Password required!");
             }
 
-            if (this.form.password2 === "") {
+            if (!this.form.password2) {
                 this.entryErrors.push("Please confirm your password!");
             }
 
@@ -83,6 +83,7 @@ export default {
                             this.form.password2 = "";
                         } else {
                             // Handle unsuccessful registration
+                            console.log(error)
                             this.toastStore.displayToast({
                                 duration: 7500, // Display the toast for 7.5 seconds
                                 title: "Error!",
